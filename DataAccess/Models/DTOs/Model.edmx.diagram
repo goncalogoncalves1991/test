@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e783e92de26940a58e8e9d3808855c3e" Name="Diagram1" ZoomLevel="127">
+        <EntityTypeShape EntityType="EventCommitModel.community" Width="1.5" PointX="0.75" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventCommitModel.event" Width="1.5" PointX="3" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventCommitModel.eventSubscribers" Width="1.5" PointX="8.25" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventCommitModel.inboxMessage" Width="1.5" PointX="5.25" PointY="20.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventCommitModel.notice" Width="1.5" PointX="3.125" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventCommitModel.question" Width="1.5" PointX="10.5" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventCommitModel.session" Width="1.5" PointX="5.25" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventCommitModel.sponsor" Width="1.5" PointX="3" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventCommitModel.tag" Width="1.5" PointX="8.25" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventCommitModel.userInfo" Width="1.5" PointX="3" PointY="20.25" IsExpanded="true" />
+        <AssociationConnector Association="EventCommitModel.FK__event__community__54968AE5" ManuallyRouted="false" />
+        <AssociationConnector Association="EventCommitModel.FK__notice__communit__58671BC9" ManuallyRouted="false" />
+        <AssociationConnector Association="EventCommitModel.FK__eventSubs__event__090A5324" ManuallyRouted="false" />
+        <AssociationConnector Association="EventCommitModel.FK__session__eventId__689D8392" ManuallyRouted="false" />
+        <AssociationConnector Association="EventCommitModel.FK__eventSubs__userI__09FE775D" ManuallyRouted="false" />
+        <AssociationConnector Association="EventCommitModel.FK__inboxMess__recei__4DE98D56" ManuallyRouted="false" />
+        <AssociationConnector Association="EventCommitModel.FK__inboxMess__sende__4EDDB18F" ManuallyRouted="false" />
+        <AssociationConnector Association="EventCommitModel.FK__question__author__6C6E1476" ManuallyRouted="false" />
+        <AssociationConnector Association="EventCommitModel.FK__question__sessio__6D6238AF" ManuallyRouted="false" />
+        <AssociationConnector Association="EventCommitModel.communityAdmins" ManuallyRouted="false" />
+        <AssociationConnector Association="EventCommitModel.communityMembers" ManuallyRouted="false" />
+        <AssociationConnector Association="EventCommitModel.sponsorOnCommunity" ManuallyRouted="false" />
+        <AssociationConnector Association="EventCommitModel.tagsOnCommunity" ManuallyRouted="false" />
+        <AssociationConnector Association="EventCommitModel.tagsOnEvent" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="EventCommitModel.comment" Width="1.5" PointX="6.25" PointY="17.875" />
+        <AssociationConnector Association="EventCommitModel.FK__comment__authorI__25869641" />
+        <AssociationConnector Association="EventCommitModel.FK__comment__communi__239E4DCF" />
+        <AssociationConnector Association="EventCommitModel.FK__comment__eventId__22AA2996" />
+        <AssociationConnector Association="EventCommitModel.questionLikes" />
+        <EntityTypeShape EntityType="EventCommitModel.CommunitySocialNetwork" Width="1.5" PointX="3" PointY="7.25" />
+        <AssociationConnector Association="EventCommitModel.FK__Community__Commu__2A164134" />
+        <EntityTypeShape EntityType="EventCommitModel.surveyQuestion" Width="1.5" PointX="5.25" PointY="5.5" />
+        <EntityTypeShape EntityType="EventCommitModel.surveyAnswer" Width="1.5" PointX="10.5" PointY="11.625" />
+        <EntityTypeShape EntityType="EventCommitModel.surveyChoice" Width="1.5" PointX="7.5" PointY="5.625" />
+        <EntityTypeShape EntityType="EventCommitModel.surveyChoiceAnswer" Width="1.5" PointX="12.75" PointY="13.125" />
+        <EntityTypeShape EntityType="EventCommitModel.surveyTextAnswer" Width="1.5" PointX="12.75" PointY="10.5" />
+        <AssociationConnector Association="EventCommitModel.FK__survey__eventId__04AFB25B" />
+        <AssociationConnector Association="EventCommitModel.FK__surveyAnswer__0E391C95" />
+        <AssociationConnector Association="EventCommitModel.FK__surveyChoice__09746778" />
+        <AssociationConnector Association="EventCommitModel.FK__surveyAns__autho__0F2D40CE" />
+        <AssociationConnector Association="EventCommitModel.FK__surveyChoiceAnsw__18B6AB08" />
+        <AssociationConnector Association="EventCommitModel.FK__surveyTextAnswer__13F1F5EB" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,81 @@
+﻿
+
+<div class="modal fade" id="SessionModel" tabindex="-1" data-keyboard="false" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="ModelHeader" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <center>
+                    <h2 class="modal-title">Session Info</h2>
+                </center>
+            </div>
+            <div class="modal-body">
+
+                <div id="loading">
+                    <center>
+                        <h2>Loading...</h2>
+                    </center>
+                </div>
+                
+                <div id="SessionInfo" class="hidden">
+                    <div class="row">
+                        <label style="font-size:18px">Title:</label>
+                        <p id="session-title"> </p>
+                    </div>
+
+                    <div class="row">
+                        <label style="font-size:18px">Description:</label>
+                        <p id="session-description"> </p>
+                    </div>
+                    <div class="row">
+                        <label style="font-size:18px"> Starts At:</label>
+                        <p id="session-initdate"> </p>
+                    </div>
+                    <div class="row">
+                        <label style="font-size:18px">Ends At:</label>
+                        <p id="session-enddate"> </p>
+                    </div>
+
+                    <hr>
+                    <div class="row">
+                        <label style="font-size:18px">Speaker: </label>
+                        <p id="session-speakername"> </p>
+                    </div>
+                    <div class="row">
+                        <label style="font-size:18px">Speaker profile: </label>
+                        <p id="session-linkspeaker"></p>
+                    </div>
+                    <hr>
+                    
+                    @if (Request.IsAuthenticated)
+                    {
+                        <div id="insertQuestion"></div>
+                        <div id="question-list"></div>                          
+                    }else
+                    {   
+                        
+                        <div class="row alert alert-danger alert-dismissible" role="alert">
+                            
+                            You have to be subscribed on this event to see and make questions
+                        </div>
+                    }
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <center>
+                    <button onclick="ClearSessionModal()" type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </center>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    
+
+
+
+
+
+

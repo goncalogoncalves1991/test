@@ -1,0 +1,49 @@
+﻿@using WebApp.Extensions
+@using Microsoft.AspNet.Identity;
+
+<div class="comments-container">
+    
+    
+    <div class="comment-main-level">
+        <div class="comment-avatar"><a href="#aboutModal" data-toggle="modal" data-target="#myModal" onclick=getUser('@User.Identity.GetUserId()')><img src="@User.Identity.GetPhoto()" alt="" /></a></div>
+        <div class="form-inline">
+            <div class="form-group">
+                <textarea id="commentMessage" class="form-control" rows="2" cols="100"></textarea>
+                <button onclick="PostComment()" class="btn  btn-xs btn-success"><i class="fa fa-send"> Add</i></button>
+            </div>
+        </div>
+    </div>
+    <ul id="comments-list" class="comments-list">
+        @ListComment()
+    </ul>
+</div>
+
+
+@helper ListComment()
+{
+
+    foreach (var comment in @Model)
+    {
+        <li>
+            <div class="comment-main-level">
+                <div class="comment-avatar"><a href="#aboutModal" data-toggle="modal" data-target="#myModal" onclick=getUser('@comment.userInfo.id')><img src="@comment.userInfo.picture" alt=""></a></div>
+                
+                <div class="comment-box">
+                    <div class="comment-head">
+
+                        <h6 class="comment-name">@comment.userInfo.name @comment.userInfo.lastName</h6>
+                        
+                    </div>
+                    
+                    <div class="comment-content">
+                        <p><i class="glyphicon glyphicon-time"></i><small class="text-muted"> @comment.initialDate</small></p>
+                        @comment.message
+                    </div>
+                </div>
+            </div>
+        </li>
+    }
+
+}
+
+

@@ -1,0 +1,40 @@
+﻿
+
+<div class="addon col-lg-offset-9 ">
+    
+    
+    @if (@Model.InitialDate >= DateTime.Now.Date)
+    {
+        <div class="panel-heading" style="background-color:#3b5998; color:white">
+            <span>Vão (@Model.Subscribers.Count)<button class="btn btn-xs btn-danger pull-right" onclick="insertSubscriber()"><i class="fa fa-user-plus"></i> Subscribe</button> </span>
+        </div>
+    }
+    else
+    {
+        <div class="panel-heading" style="background-color:#3b5998; color:white">
+            <span>Foram (@Model.Subscribers.Count)</span>
+        </div>
+        
+    }
+    <ul id="subscribers">
+        @foreach(var sub in Model.Subscribers)
+        {
+            @SubscriberItem(sub.userInfo)
+        }
+    </ul>
+    <!--<div class="btn btn-default">next</div>-->
+</div>
+
+@helper SubscriberItem(DataAccess.Models.DTOs.userInfo subscriber) {
+
+    <li class="clearfix">
+        <a data-toggle="modal" data-target="#myModal" onclick=getUser('@subscriber.id')>
+            <img class="round" src="@subscriber.picture">
+            <div class="legend-info">
+                <strong>@subscriber.name @subscriber.lastName</strong>
+            </div>
+        </a>
+    </li>
+
+}
+

@@ -1,0 +1,83 @@
+﻿<center>
+    <h2>Create Survey</h2>
+    <hr />
+    <div id="firstStep">
+
+        <h3 style="color:mediumaquamarine;">Get started by adding your first question.</h3>
+        <p>
+            To add the first question to your survey, click the button below or use the sidebar menu, which will also allow
+            <br>
+            you to add additional content (i.e. pages and elements, including headings, text, and images).
+        </p>
+
+    </div>
+    <div id="questions"></div>
+
+    
+    <div id="createQuestion" class="hidden" >
+        <br />
+        <h3 style="color:mediumaquamarine;">Create Question</h3>
+        <br />
+        <table >
+            <tbody>
+                <!-- Seletor para o tipo de pergunta-->
+                <tr class="form-group-sm form-inline">
+
+                    <th>
+                        <label for="typeOfQuestion">Question type:</label>
+                    </th>
+                    <td>
+                        <select class="form-control" id="typeOfQuestion">
+                            <option value="Single">Multiple Choice - Single answer</option>
+                            <option value="Multiple">Multiple Choice - Multiple answers (checkbox)</option>
+                            <option value="Text">Open Text</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr id="textQuestion">
+                    <th>Question: </th>
+                    <td>
+                        <textarea class="form-control" rows="3" cols="10" id="QuestionText">New Question</textarea>
+                    </td>
+                </tr>
+                <!--Editor para perguntas de opções -->
+
+                <tr class="single-aswer form-group-sm">
+                    <th>
+                        Choices:
+                    </th>
+                    <td id="choices" class="form-inline">
+                        <input id="choice" type="text" class="form-control " value="New Choice" />
+                        <button id="choiceAdd" type="button" class="btn btn-success btn-xs" onclick="addInputChoices()"><i class="fa fa-plus"></i></button>                        
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td class="form-inline">
+
+                        <button type="button" class="btn btn-success btn-xs" onclick="postQuestion()">Post Question</button>
+                        <button type="button" class="btn btn-danger btn-xs" onclick="cancelQuestion()">Cancel</button>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table> 
+    </div>
+</center>
+
+    
+<hr />
+
+<center>
+    <div class="row">
+
+        <button id="addQuestion" type="button" class="btn btn-primary" onclick="addQuestion()"><i class="fa fa-plus-circle"> Add Question</i></button>
+        <button id="sendSurvey" type="button" class="btn btn-success hidden" onclick="sendSurvey(@Model.eventId,'@Model.token')"><i class="fa fa-send-o"> Submit Survey</i></button>
+
+    </div>
+
+</center>
+
+
+
+

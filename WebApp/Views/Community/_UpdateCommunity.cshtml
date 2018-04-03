@@ -1,0 +1,84 @@
+﻿@model WebApp.Models.Community
+
+<center>
+    <h2>Edit Community</h2>
+</center>
+<hr />
+<form action=@Url.Action("PutCommunity","Community") method="post" enctype="multipart/form-data">
+
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+
+        <input type="hidden" name="Id" value="@Model.Id" />
+        <input type="hidden" name="Name" value="@Model.Name" />
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Avatar, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <label class="file" title="">
+                    <input name="Avatar" accept="image/png,image/jpeg" type="file" onchange="this.parentNode.setAttribute('title', this.value.replace(/^.*[\\/]/, ''))" />
+                </label>
+                @Html.ValidationMessageFor(model => model.Avatar, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = "4", cols = "100"})
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Local, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Local, new { htmlAttributes = new { @class = "form-control", id = "txtPlacesUpdate" } })
+                @Html.ValidationMessageFor(model => model.Local, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class='input-group timepicker col-md-4 col-md-4' id='updateFoundationDate'>
+                @Html.TextBoxFor(model => model.date, new { @class = "form-control", type = "datetime" })
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+                @Html.ValidationMessageFor(model => model.date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <h3 style="color:mediumaquamarine">Social Network</h3>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Mail, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Mail, new { htmlAttributes = new { @class = "form-control"} })
+                @Html.ValidationMessageFor(model => model.Mail, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Site, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Site, new { htmlAttributes = new { @class = "form-control"} })
+                @Html.ValidationMessageFor(model => model.Site, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.GitHub, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.GitHub, new { htmlAttributes = new { @class = "form-control"} })
+                @Html.ValidationMessageFor(model => model.GitHub, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>

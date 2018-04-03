@@ -1,0 +1,33 @@
+﻿
+.destacados{
+    padding: 20px 0;
+	text-align: center;
+}
+.destacados > div > div{
+	padding: 10px;
+	border: 1px solid rgb(0, 0, 0);
+	border-radius: 4px;
+	transition: 0.2s;
+    background-color:#dee1e3
+}
+.destacados > div:hover > div{
+	
+	border: 1px solid rgb(0, 0, 0);
+	box-shadow: rgb(0, 0, 0) 0px 5px 5px 2px;
+	background: #9cb3c9;
+	transition: 0.5s;
+}
+
+.right-inner-addon i {
+    position: absolute;
+    right: 0px;
+    padding: 10px 12px;
+    pointer-events: none;
+}
+
+.right-inner-addon {
+    position: relative;
+}
+.right-inner-addon input {
+    padding-right: 30px;    
+}

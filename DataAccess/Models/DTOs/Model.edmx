@@ -1,0 +1,1799 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="EventCommitModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="comment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="eventId" Type="int" />
+          <Property Name="communityId" Type="int" />
+          <Property Name="message" Type="varchar(max)" Nullable="false" />
+          <Property Name="initialDate" Type="date" />
+          <Property Name="authorId" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="community">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="local" Type="varchar" MaxLength="100" />
+          <Property Name="description" Type="varchar(max)" />
+          <Property Name="foundationDate" Type="date" />
+          <Property Name="avatar" Type="varchar(max)" />
+          <Property Name="mail" Type="varchar(max)" />
+          <Property Name="gitHub" Type="varchar(max)" />
+          <Property Name="site" Type="varchar(max)" />
+          <Property Name="longitude" Type="varchar" MaxLength="50" />
+          <Property Name="latitude" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="communityAdmins">
+          <Key>
+            <PropertyRef Name="communityId" />
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="communityId" Type="int" Nullable="false" />
+          <Property Name="userId" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="communityMembers">
+          <Key>
+            <PropertyRef Name="communityId" />
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="communityId" Type="int" Nullable="false" />
+          <Property Name="userId" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CommunitySocialNetwork">
+          <Key>
+            <PropertyRef Name="CommunityId" />
+            <PropertyRef Name="provider" />
+          </Key>
+          <Property Name="CommunityId" Type="int" Nullable="false" />
+          <Property Name="provider" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Url" Type="varchar" MaxLength="100" />
+          <Property Name="Acess_Token" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="event">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="communityId" Type="int" />
+          <Property Name="title" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="description" Type="varchar(max)" />
+          <Property Name="local" Type="varchar" MaxLength="100" />
+          <Property Name="nrOfTickets" Type="int" />
+          <Property Name="longitude" Type="varchar" MaxLength="50" />
+          <Property Name="latitude" Type="varchar" MaxLength="50" />
+          <Property Name="initDate" Type="date" Nullable="false" />
+          <Property Name="endDate" Type="date" Nullable="false" />
+          <Property Name="qrcode" Type="varchar" MaxLength="100" />
+          <Property Name="creationDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="eventSubscribers">
+          <Key>
+            <PropertyRef Name="eventId" />
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="eventId" Type="int" Nullable="false" />
+          <Property Name="userId" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="checkIn" Type="bit" />
+        </EntityType>
+        <EntityType Name="inboxMessage">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="message" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="date" Type="date" />
+          <Property Name="receiver" Type="varchar" MaxLength="100" />
+          <Property Name="sender" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="notice">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="communityId" Type="int" />
+          <Property Name="title" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="description" Type="varchar(max)" />
+          <Property Name="initialDate" Type="date" />
+        </EntityType>
+        <EntityType Name="question">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="message" Type="varchar(max)" Nullable="false" />
+          <Property Name="authorId" Type="varchar" MaxLength="100" />
+          <Property Name="sessionId" Type="int" />
+          <Property Name="likes" Type="int" />
+        </EntityType>
+        <EntityType Name="questionLikes">
+          <Key>
+            <PropertyRef Name="questionId" />
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="questionId" Type="int" Nullable="false" />
+          <Property Name="userId" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="session">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="eventId" Type="int" />
+          <Property Name="title" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="100" />
+          <Property Name="initialDate" Type="datetime" Nullable="false" />
+          <Property Name="speakerName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="lastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="linkOfSpeaker" Type="varchar(max)" Nullable="false" />
+          <Property Name="endDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="sponsor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="image" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="sponsorOnCommunity">
+          <Key>
+            <PropertyRef Name="communityId" />
+            <PropertyRef Name="sponsorId" />
+          </Key>
+          <Property Name="communityId" Type="int" Nullable="false" />
+          <Property Name="sponsorId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="survey">
+          <Key>
+            <PropertyRef Name="eventId" />
+            <PropertyRef Name="questionId" />
+          </Key>
+          <Property Name="eventId" Type="int" Nullable="false" />
+          <Property Name="questionId" Type="int" Nullable="false" />
+          <Property Name="question" Type="varchar(max)" Nullable="false" />
+          <Property Name="type" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="surveyAnswer">
+          <Key>
+            <PropertyRef Name="eventId" />
+            <PropertyRef Name="questionId" />
+            <PropertyRef Name="authorId" />
+          </Key>
+          <Property Name="eventId" Type="int" Nullable="false" />
+          <Property Name="questionId" Type="int" Nullable="false" />
+          <Property Name="authorId" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="surveyChoice">
+          <Key>
+            <PropertyRef Name="eventId" />
+            <PropertyRef Name="questionId" />
+            <PropertyRef Name="choiceId" />
+          </Key>
+          <Property Name="eventId" Type="int" Nullable="false" />
+          <Property Name="questionId" Type="int" Nullable="false" />
+          <Property Name="choiceId" Type="int" Nullable="false" />
+          <Property Name="message" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="surveyChoiceAnswer">
+          <Key>
+            <PropertyRef Name="eventId" />
+            <PropertyRef Name="questionId" />
+            <PropertyRef Name="authorId" />
+            <PropertyRef Name="choiceId" />
+          </Key>
+          <Property Name="eventId" Type="int" Nullable="false" />
+          <Property Name="questionId" Type="int" Nullable="false" />
+          <Property Name="authorId" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="choiceId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="surveyTextAnswer">
+          <Key>
+            <PropertyRef Name="eventId" />
+            <PropertyRef Name="questionId" />
+            <PropertyRef Name="authorId" />
+          </Key>
+          <Property Name="eventId" Type="int" Nullable="false" />
+          <Property Name="questionId" Type="int" Nullable="false" />
+          <Property Name="authorId" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="response" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tag">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tagsOnCommunity">
+          <Key>
+            <PropertyRef Name="communityId" />
+            <PropertyRef Name="tagId" />
+          </Key>
+          <Property Name="communityId" Type="int" Nullable="false" />
+          <Property Name="tagId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tagsOnEvent">
+          <Key>
+            <PropertyRef Name="eventId" />
+            <PropertyRef Name="tagId" />
+          </Key>
+          <Property Name="eventId" Type="int" Nullable="false" />
+          <Property Name="tagId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="userInfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="local" Type="varchar" MaxLength="100" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="lastName" Type="varchar" MaxLength="50" />
+          <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="registerDate" Type="date" />
+          <Property Name="github" Type="varchar(max)" />
+          <Property Name="facebook" Type="varchar(max)" />
+          <Property Name="twitter" Type="varchar(max)" />
+          <Property Name="linkedin" Type="varchar(max)" />
+          <Property Name="biography" Type="varchar(max)" />
+          <Property Name="picture" Type="varchar(max)" />
+          <Property Name="googleplus" Type="varchar(max)" />
+        </EntityType>
+        <Association Name="FK__comment__authorI__239E4DCF">
+          <End Role="userInfo" Type="Self.userInfo" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="comment" Type="Self.comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userInfo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="comment">
+              <PropertyRef Name="authorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__comment__communi__21B6055D">
+          <End Role="community" Type="Self.community" Multiplicity="0..1" />
+          <End Role="comment" Type="Self.comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="community">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="comment">
+              <PropertyRef Name="communityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__comment__eventId__20C1E124">
+          <End Role="event" Type="Self.event" Multiplicity="0..1" />
+          <End Role="comment" Type="Self.comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="event">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="comment">
+              <PropertyRef Name="eventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Community__Commu__2A164134">
+          <End Role="community" Type="Self.community" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CommunitySocialNetwork" Type="Self.CommunitySocialNetwork" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="community">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="CommunitySocialNetwork">
+              <PropertyRef Name="CommunityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__community__commu__5165187F">
+          <End Role="community" Type="Self.community" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="communityAdmins" Type="Self.communityAdmins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="community">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="communityAdmins">
+              <PropertyRef Name="communityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__community__commu__571DF1D5">
+          <End Role="community" Type="Self.community" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="communityMembers" Type="Self.communityMembers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="community">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="communityMembers">
+              <PropertyRef Name="communityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__community__userI__52593CB8">
+          <End Role="userInfo" Type="Self.userInfo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="communityAdmins" Type="Self.communityAdmins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userInfo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="communityAdmins">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__community__userI__5812160E">
+          <End Role="userInfo" Type="Self.userInfo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="communityMembers" Type="Self.communityMembers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userInfo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="communityMembers">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__event__community__15502E78">
+          <End Role="community" Type="Self.community" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="event" Type="Self.event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="community">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="event">
+              <PropertyRef Name="communityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__eventSubs__event__5CD6CB2B">
+          <End Role="event" Type="Self.event" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="eventSubscribers" Type="Self.eventSubscribers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="event">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="eventSubscribers">
+              <PropertyRef Name="eventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__eventSubs__userI__5DCAEF64">
+          <End Role="userInfo" Type="Self.userInfo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="eventSubscribers" Type="Self.eventSubscribers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userInfo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="eventSubscribers">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__inboxMess__recei__08EA5793">
+          <End Role="userInfo" Type="Self.userInfo" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="inboxMessage" Type="Self.inboxMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userInfo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="inboxMessage">
+              <PropertyRef Name="receiver" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__inboxMess__sende__09DE7BCC">
+          <End Role="userInfo" Type="Self.userInfo" Multiplicity="0..1" />
+          <End Role="inboxMessage" Type="Self.inboxMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userInfo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="inboxMessage">
+              <PropertyRef Name="sender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__notice__communit__1B0907CE">
+          <End Role="community" Type="Self.community" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="notice" Type="Self.notice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="community">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="notice">
+              <PropertyRef Name="communityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__question__author__2D27B809">
+          <End Role="userInfo" Type="Self.userInfo" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="question" Type="Self.question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userInfo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="question">
+              <PropertyRef Name="authorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__question__sessio__2E1BDC42">
+          <End Role="session" Type="Self.session" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="question" Type="Self.question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="session">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="question">
+              <PropertyRef Name="sessionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__questionL__quest__18EBB532">
+          <End Role="question" Type="Self.question" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="questionLikes" Type="Self.questionLikes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="question">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="questionLikes">
+              <PropertyRef Name="questionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__questionL__userI__19DFD96B">
+          <End Role="userInfo" Type="Self.userInfo" Multiplicity="1" />
+          <End Role="questionLikes" Type="Self.questionLikes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userInfo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="questionLikes">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__session__eventId__286302EC">
+          <End Role="event" Type="Self.event" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="session" Type="Self.session" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="event">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="session">
+              <PropertyRef Name="eventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__sponsorOn__commu__4BAC3F29">
+          <End Role="community" Type="Self.community" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="sponsorOnCommunity" Type="Self.sponsorOnCommunity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="community">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sponsorOnCommunity">
+              <PropertyRef Name="communityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__sponsorOn__spons__4CA06362">
+          <End Role="sponsor" Type="Self.sponsor" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="sponsorOnCommunity" Type="Self.sponsorOnCommunity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sponsor">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sponsorOnCommunity">
+              <PropertyRef Name="sponsorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__survey__eventId__04AFB25B">
+          <End Role="event" Type="Self.event" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="survey" Type="Self.survey" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="event">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="survey">
+              <PropertyRef Name="eventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__surveyAns__autho__0F2D40CE">
+          <End Role="userInfo" Type="Self.userInfo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="surveyAnswer" Type="Self.surveyAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userInfo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="surveyAnswer">
+              <PropertyRef Name="authorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__surveyAnswer__0E391C95">
+          <End Role="survey" Type="Self.survey" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="surveyAnswer" Type="Self.surveyAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="survey">
+              <PropertyRef Name="eventId" />
+              <PropertyRef Name="questionId" />
+            </Principal>
+            <Dependent Role="surveyAnswer">
+              <PropertyRef Name="eventId" />
+              <PropertyRef Name="questionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__surveyChoice__09746778">
+          <End Role="survey" Type="Self.survey" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="surveyChoice" Type="Self.surveyChoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="survey">
+              <PropertyRef Name="eventId" />
+              <PropertyRef Name="questionId" />
+            </Principal>
+            <Dependent Role="surveyChoice">
+              <PropertyRef Name="eventId" />
+              <PropertyRef Name="questionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__surveyChoiceAnsw__18B6AB08">
+          <End Role="surveyAnswer" Type="Self.surveyAnswer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="surveyChoiceAnswer" Type="Self.surveyChoiceAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="surveyAnswer">
+              <PropertyRef Name="eventId" />
+              <PropertyRef Name="questionId" />
+              <PropertyRef Name="authorId" />
+            </Principal>
+            <Dependent Role="surveyChoiceAnswer">
+              <PropertyRef Name="eventId" />
+              <PropertyRef Name="questionId" />
+              <PropertyRef Name="authorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__surveyTextAnswer__13F1F5EB">
+          <End Role="surveyAnswer" Type="Self.surveyAnswer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="surveyTextAnswer" Type="Self.surveyTextAnswer" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="surveyAnswer">
+              <PropertyRef Name="eventId" />
+              <PropertyRef Name="questionId" />
+              <PropertyRef Name="authorId" />
+            </Principal>
+            <Dependent Role="surveyTextAnswer">
+              <PropertyRef Name="eventId" />
+              <PropertyRef Name="questionId" />
+              <PropertyRef Name="authorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tagsOnCom__commu__403A8C7D">
+          <End Role="community" Type="Self.community" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tagsOnCommunity" Type="Self.tagsOnCommunity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="community">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tagsOnCommunity">
+              <PropertyRef Name="communityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tagsOnCom__tagId__412EB0B6">
+          <End Role="tag" Type="Self.tag" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tagsOnCommunity" Type="Self.tagsOnCommunity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tag">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tagsOnCommunity">
+              <PropertyRef Name="tagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tagsOnEve__event__45F365D3">
+          <End Role="event" Type="Self.event" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tagsOnEvent" Type="Self.tagsOnEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="event">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tagsOnEvent">
+              <PropertyRef Name="eventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tagsOnEve__tagId__46E78A0C">
+          <End Role="tag" Type="Self.tag" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tagsOnEvent" Type="Self.tagsOnEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tag">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tagsOnEvent">
+              <PropertyRef Name="tagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="insert_question_Liker" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userId" Type="varchar" Mode="In" />
+          <Parameter Name="questionId" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="EventCommitModelStoreContainer">
+          <EntitySet Name="comment" EntityType="Self.comment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="community" EntityType="Self.community" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="communityAdmins" EntityType="Self.communityAdmins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="communityMembers" EntityType="Self.communityMembers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CommunitySocialNetwork" EntityType="Self.CommunitySocialNetwork" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="event" EntityType="Self.event" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="eventSubscribers" EntityType="Self.eventSubscribers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="inboxMessage" EntityType="Self.inboxMessage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="notice" EntityType="Self.notice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="question" EntityType="Self.question" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="questionLikes" EntityType="Self.questionLikes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="session" EntityType="Self.session" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sponsor" EntityType="Self.sponsor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sponsorOnCommunity" EntityType="Self.sponsorOnCommunity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="survey" EntityType="Self.survey" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="surveyAnswer" EntityType="Self.surveyAnswer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="surveyChoice" EntityType="Self.surveyChoice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="surveyChoiceAnswer" EntityType="Self.surveyChoiceAnswer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="surveyTextAnswer" EntityType="Self.surveyTextAnswer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tag" EntityType="Self.tag" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tagsOnCommunity" EntityType="Self.tagsOnCommunity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tagsOnEvent" EntityType="Self.tagsOnEvent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="userInfo" EntityType="Self.userInfo" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__comment__authorI__239E4DCF" Association="Self.FK__comment__authorI__239E4DCF">
+            <End Role="userInfo" EntitySet="userInfo" />
+            <End Role="comment" EntitySet="comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__comment__communi__21B6055D" Association="Self.FK__comment__communi__21B6055D">
+            <End Role="community" EntitySet="community" />
+            <End Role="comment" EntitySet="comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__comment__eventId__20C1E124" Association="Self.FK__comment__eventId__20C1E124">
+            <End Role="event" EntitySet="event" />
+            <End Role="comment" EntitySet="comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Community__Commu__2A164134" Association="Self.FK__Community__Commu__2A164134">
+            <End Role="community" EntitySet="community" />
+            <End Role="CommunitySocialNetwork" EntitySet="CommunitySocialNetwork" />
+          </AssociationSet>
+          <AssociationSet Name="FK__community__commu__5165187F" Association="Self.FK__community__commu__5165187F">
+            <End Role="community" EntitySet="community" />
+            <End Role="communityAdmins" EntitySet="communityAdmins" />
+          </AssociationSet>
+          <AssociationSet Name="FK__community__commu__571DF1D5" Association="Self.FK__community__commu__571DF1D5">
+            <End Role="community" EntitySet="community" />
+            <End Role="communityMembers" EntitySet="communityMembers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__community__userI__52593CB8" Association="Self.FK__community__userI__52593CB8">
+            <End Role="userInfo" EntitySet="userInfo" />
+            <End Role="communityAdmins" EntitySet="communityAdmins" />
+          </AssociationSet>
+          <AssociationSet Name="FK__community__userI__5812160E" Association="Self.FK__community__userI__5812160E">
+            <End Role="userInfo" EntitySet="userInfo" />
+            <End Role="communityMembers" EntitySet="communityMembers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__event__community__15502E78" Association="Self.FK__event__community__15502E78">
+            <End Role="community" EntitySet="community" />
+            <End Role="event" EntitySet="event" />
+          </AssociationSet>
+          <AssociationSet Name="FK__eventSubs__event__5CD6CB2B" Association="Self.FK__eventSubs__event__5CD6CB2B">
+            <End Role="event" EntitySet="event" />
+            <End Role="eventSubscribers" EntitySet="eventSubscribers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__eventSubs__userI__5DCAEF64" Association="Self.FK__eventSubs__userI__5DCAEF64">
+            <End Role="userInfo" EntitySet="userInfo" />
+            <End Role="eventSubscribers" EntitySet="eventSubscribers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__inboxMess__recei__08EA5793" Association="Self.FK__inboxMess__recei__08EA5793">
+            <End Role="userInfo" EntitySet="userInfo" />
+            <End Role="inboxMessage" EntitySet="inboxMessage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__inboxMess__sende__09DE7BCC" Association="Self.FK__inboxMess__sende__09DE7BCC">
+            <End Role="userInfo" EntitySet="userInfo" />
+            <End Role="inboxMessage" EntitySet="inboxMessage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__notice__communit__1B0907CE" Association="Self.FK__notice__communit__1B0907CE">
+            <End Role="community" EntitySet="community" />
+            <End Role="notice" EntitySet="notice" />
+          </AssociationSet>
+          <AssociationSet Name="FK__question__author__2D27B809" Association="Self.FK__question__author__2D27B809">
+            <End Role="userInfo" EntitySet="userInfo" />
+            <End Role="question" EntitySet="question" />
+          </AssociationSet>
+          <AssociationSet Name="FK__question__sessio__2E1BDC42" Association="Self.FK__question__sessio__2E1BDC42">
+            <End Role="session" EntitySet="session" />
+            <End Role="question" EntitySet="question" />
+          </AssociationSet>
+          <AssociationSet Name="FK__questionL__quest__18EBB532" Association="Self.FK__questionL__quest__18EBB532">
+            <End Role="question" EntitySet="question" />
+            <End Role="questionLikes" EntitySet="questionLikes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__questionL__userI__19DFD96B" Association="Self.FK__questionL__userI__19DFD96B">
+            <End Role="userInfo" EntitySet="userInfo" />
+            <End Role="questionLikes" EntitySet="questionLikes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__session__eventId__286302EC" Association="Self.FK__session__eventId__286302EC">
+            <End Role="event" EntitySet="event" />
+            <End Role="session" EntitySet="session" />
+          </AssociationSet>
+          <AssociationSet Name="FK__sponsorOn__commu__4BAC3F29" Association="Self.FK__sponsorOn__commu__4BAC3F29">
+            <End Role="community" EntitySet="community" />
+            <End Role="sponsorOnCommunity" EntitySet="sponsorOnCommunity" />
+          </AssociationSet>
+          <AssociationSet Name="FK__sponsorOn__spons__4CA06362" Association="Self.FK__sponsorOn__spons__4CA06362">
+            <End Role="sponsor" EntitySet="sponsor" />
+            <End Role="sponsorOnCommunity" EntitySet="sponsorOnCommunity" />
+          </AssociationSet>
+          <AssociationSet Name="FK__survey__eventId__04AFB25B" Association="Self.FK__survey__eventId__04AFB25B">
+            <End Role="event" EntitySet="event" />
+            <End Role="survey" EntitySet="survey" />
+          </AssociationSet>
+          <AssociationSet Name="FK__surveyAns__autho__0F2D40CE" Association="Self.FK__surveyAns__autho__0F2D40CE">
+            <End Role="userInfo" EntitySet="userInfo" />
+            <End Role="surveyAnswer" EntitySet="surveyAnswer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__surveyAnswer__0E391C95" Association="Self.FK__surveyAnswer__0E391C95">
+            <End Role="survey" EntitySet="survey" />
+            <End Role="surveyAnswer" EntitySet="surveyAnswer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__surveyChoice__09746778" Association="Self.FK__surveyChoice__09746778">
+            <End Role="survey" EntitySet="survey" />
+            <End Role="surveyChoice" EntitySet="surveyChoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK__surveyChoiceAnsw__18B6AB08" Association="Self.FK__surveyChoiceAnsw__18B6AB08">
+            <End Role="surveyAnswer" EntitySet="surveyAnswer" />
+            <End Role="surveyChoiceAnswer" EntitySet="surveyChoiceAnswer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__surveyTextAnswer__13F1F5EB" Association="Self.FK__surveyTextAnswer__13F1F5EB">
+            <End Role="surveyAnswer" EntitySet="surveyAnswer" />
+            <End Role="surveyTextAnswer" EntitySet="surveyTextAnswer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tagsOnCom__commu__403A8C7D" Association="Self.FK__tagsOnCom__commu__403A8C7D">
+            <End Role="community" EntitySet="community" />
+            <End Role="tagsOnCommunity" EntitySet="tagsOnCommunity" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tagsOnCom__tagId__412EB0B6" Association="Self.FK__tagsOnCom__tagId__412EB0B6">
+            <End Role="tag" EntitySet="tag" />
+            <End Role="tagsOnCommunity" EntitySet="tagsOnCommunity" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tagsOnEve__event__45F365D3" Association="Self.FK__tagsOnEve__event__45F365D3">
+            <End Role="event" EntitySet="event" />
+            <End Role="tagsOnEvent" EntitySet="tagsOnEvent" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tagsOnEve__tagId__46E78A0C" Association="Self.FK__tagsOnEve__tagId__46E78A0C">
+            <End Role="tag" EntitySet="tag" />
+            <End Role="tagsOnEvent" EntitySet="tagsOnEvent" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EventCommitModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="community">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="local" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="foundationDate" Type="DateTime" Precision="0" />
+          <Property Name="avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="event" Relationship="Self.FK__event__community__54968AE5" FromRole="community" ToRole="event" />
+          <NavigationProperty Name="notice" Relationship="Self.FK__notice__communit__58671BC9" FromRole="community" ToRole="notice" />
+          <NavigationProperty Name="admins" Relationship="Self.communityAdmins" FromRole="community" ToRole="userInfo" />
+          <NavigationProperty Name="members" Relationship="Self.communityMembers" FromRole="community" ToRole="userInfo" />
+          <NavigationProperty Name="sponsor" Relationship="Self.sponsorOnCommunity" FromRole="community" ToRole="sponsor" />
+          <NavigationProperty Name="tag" Relationship="Self.tagsOnCommunity" FromRole="community" ToRole="tag" />
+          <NavigationProperty Name="comment" Relationship="EventCommitModel.FK__comment__communi__239E4DCF" FromRole="community" ToRole="comment" />
+          <NavigationProperty Name="CommunitySocialNetwork" Relationship="EventCommitModel.FK__Community__Commu__2A164134" FromRole="community" ToRole="CommunitySocialNetwork" />
+          <Property Name="mail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="gitHub" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="site" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="longitude" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="latitude" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="event">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="communityId" Type="Int32" />
+          <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="local" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="nrOfTickets" Type="Int32" />
+          <Property Name="initDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="endDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="community" Relationship="Self.FK__event__community__54968AE5" FromRole="event" ToRole="community" />
+          <NavigationProperty Name="eventSubscribers" Relationship="Self.FK__eventSubs__event__090A5324" FromRole="event" ToRole="eventSubscribers" />
+          <NavigationProperty Name="session" Relationship="Self.FK__session__eventId__689D8392" FromRole="event" ToRole="session" />
+          <NavigationProperty Name="tag" Relationship="Self.tagsOnEvent" FromRole="event" ToRole="tag" />
+          <NavigationProperty Name="comment" Relationship="EventCommitModel.FK__comment__eventId__22AA2996" FromRole="event" ToRole="comment" />
+          <Property Name="longitude" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="latitude" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="qrcode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="survey" Relationship="EventCommitModel.FK__survey__eventId__04AFB25B" FromRole="event" ToRole="survey" />
+          <Property Name="creationDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="eventSubscribers">
+          <Key>
+            <PropertyRef Name="eventId" />
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="eventId" Type="Int32" Nullable="false" />
+          <Property Name="userId" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="checkIn" Type="Boolean" />
+          <NavigationProperty Name="event" Relationship="Self.FK__eventSubs__event__090A5324" FromRole="eventSubscribers" ToRole="event" />
+          <NavigationProperty Name="userInfo" Relationship="Self.FK__eventSubs__userI__09FE775D" FromRole="eventSubscribers" ToRole="userInfo" />
+        </EntityType>
+        <EntityType Name="inboxMessage">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="message" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date" Type="DateTime" Precision="0" />
+          <Property Name="receiver" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="sender" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="userInfo" Relationship="Self.FK__inboxMess__recei__4DE98D56" FromRole="inboxMessage" ToRole="userInfo" />
+          <NavigationProperty Name="userInfo1" Relationship="Self.FK__inboxMess__sende__4EDDB18F" FromRole="inboxMessage" ToRole="userInfo" />
+        </EntityType>
+        <EntityType Name="notice">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="communityId" Type="Int32" />
+          <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="initialDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="community" Relationship="Self.FK__notice__communit__58671BC9" FromRole="notice" ToRole="community" />
+        </EntityType>
+        <EntityType Name="question">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="message" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="authorId" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="sessionId" Type="Int32" />
+          <NavigationProperty Name="userInfo" Relationship="Self.FK__question__author__6C6E1476" FromRole="question" ToRole="userInfo" />
+          <NavigationProperty Name="session" Relationship="Self.FK__question__sessio__6D6238AF" FromRole="question" ToRole="session" />
+          <Property Name="likes" Type="Int32" annotation:StoreGeneratedPattern="None" />
+          <NavigationProperty Name="user_like" Relationship="EventCommitModel.questionLikes" FromRole="question" ToRole="userInfo" />
+        </EntityType>
+        <EntityType Name="session">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="eventId" Type="Int32" />
+          <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="initialDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="event" Relationship="Self.FK__session__eventId__689D8392" FromRole="session" ToRole="event" />
+          <NavigationProperty Name="question" Relationship="Self.FK__question__sessio__6D6238AF" FromRole="session" ToRole="question" />
+          <Property Name="speakerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="lastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="linkOfSpeaker" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="endDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="sponsor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="image" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="community" Relationship="Self.sponsorOnCommunity" FromRole="sponsor" ToRole="community" />
+        </EntityType>
+        <EntityType Name="tag">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="community" Relationship="Self.tagsOnCommunity" FromRole="tag" ToRole="community" />
+          <NavigationProperty Name="event" Relationship="Self.tagsOnEvent" FromRole="tag" ToRole="event" />
+        </EntityType>
+        <EntityType Name="userInfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="local" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="registerDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="eventSubscribers" Relationship="Self.FK__eventSubs__userI__09FE775D" FromRole="userInfo" ToRole="eventSubscribers" />
+          <NavigationProperty Name="inboxMessage" Relationship="Self.FK__inboxMess__recei__4DE98D56" FromRole="userInfo" ToRole="inboxMessage" />
+          <NavigationProperty Name="inboxMessage1" Relationship="Self.FK__inboxMess__sende__4EDDB18F" FromRole="userInfo" ToRole="inboxMessage" />
+          <NavigationProperty Name="question" Relationship="Self.FK__question__author__6C6E1476" FromRole="userInfo" ToRole="question" />
+          <NavigationProperty Name="admin" Relationship="Self.communityAdmins" FromRole="userInfo" ToRole="community" />
+          <NavigationProperty Name="member" Relationship="Self.communityMembers" FromRole="userInfo" ToRole="community" />
+          <NavigationProperty Name="comment" Relationship="EventCommitModel.FK__comment__authorI__25869641" FromRole="userInfo" ToRole="comment" />
+          <NavigationProperty Name="question_like" Relationship="EventCommitModel.questionLikes" FromRole="userInfo" ToRole="question" />
+          <NavigationProperty Name="surveyAnswer" Relationship="EventCommitModel.FK__surveyAns__autho__0F2D40CE" FromRole="userInfo" ToRole="surveyAnswer" />
+          <Property Name="github" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="facebook" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="twitter" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="linkedin" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="biography" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="picture" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="googleplus" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK__event__community__54968AE5">
+          <End Role="community" Type="Self.community" Multiplicity="0..1" />
+          <End Role="event" Type="Self.event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="community">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="event">
+              <PropertyRef Name="communityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__notice__communit__58671BC9">
+          <End Role="community" Type="Self.community" Multiplicity="0..1" />
+          <End Role="notice" Type="Self.notice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="community">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="notice">
+              <PropertyRef Name="communityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__eventSubs__event__090A5324">
+          <End Role="event" Type="Self.event" Multiplicity="1" />
+          <End Role="eventSubscribers" Type="Self.eventSubscribers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="event">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="eventSubscribers">
+              <PropertyRef Name="eventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__session__eventId__689D8392">
+          <End Role="event" Type="Self.event" Multiplicity="0..1" />
+          <End Role="session" Type="Self.session" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="event">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="session">
+              <PropertyRef Name="eventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__eventSubs__userI__09FE775D">
+          <End Role="userInfo" Type="Self.userInfo" Multiplicity="1" />
+          <End Role="eventSubscribers" Type="Self.eventSubscribers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userInfo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="eventSubscribers">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__inboxMess__recei__4DE98D56">
+          <End Role="userInfo" Type="Self.userInfo" Multiplicity="0..1" />
+          <End Role="inboxMessage" Type="Self.inboxMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userInfo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="inboxMessage">
+              <PropertyRef Name="receiver" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__inboxMess__sende__4EDDB18F">
+          <End Role="userInfo" Type="Self.userInfo" Multiplicity="0..1" />
+          <End Role="inboxMessage" Type="Self.inboxMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userInfo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="inboxMessage">
+              <PropertyRef Name="sender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__question__author__6C6E1476">
+          <End Role="userInfo" Type="Self.userInfo" Multiplicity="0..1" />
+          <End Role="question" Type="Self.question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userInfo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="question">
+              <PropertyRef Name="authorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__question__sessio__6D6238AF">
+          <End Role="session" Type="Self.session" Multiplicity="0..1" />
+          <End Role="question" Type="Self.question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="session">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="question">
+              <PropertyRef Name="sessionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="communityAdmins">
+          <End Role="community" Type="Self.community" Multiplicity="*" />
+          <End Role="userInfo" Type="Self.userInfo" Multiplicity="*" />
+        </Association>
+        <Association Name="communityMembers">
+          <End Role="community" Type="Self.community" Multiplicity="*" />
+          <End Role="userInfo" Type="Self.userInfo" Multiplicity="*" />
+        </Association>
+        <Association Name="sponsorOnCommunity">
+          <End Role="community" Type="Self.community" Multiplicity="*" />
+          <End Role="sponsor" Type="Self.sponsor" Multiplicity="*" />
+        </Association>
+        <Association Name="tagsOnCommunity">
+          <End Role="community" Type="Self.community" Multiplicity="*" />
+          <End Role="tag" Type="Self.tag" Multiplicity="*" />
+        </Association>
+        <Association Name="tagsOnEvent">
+          <End Role="event" Type="Self.event" Multiplicity="*" />
+          <End Role="tag" Type="Self.tag" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="EventCommitEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="community" EntityType="Self.community" />
+          <EntitySet Name="event" EntityType="Self.event" />
+          <EntitySet Name="eventSubscribers" EntityType="Self.eventSubscribers" />
+          <EntitySet Name="inboxMessage" EntityType="Self.inboxMessage" />
+          <EntitySet Name="notice" EntityType="Self.notice" />
+          <EntitySet Name="question" EntityType="Self.question" />
+          <EntitySet Name="session" EntityType="Self.session" />
+          <EntitySet Name="sponsor" EntityType="Self.sponsor" />
+          <EntitySet Name="tag" EntityType="Self.tag" />
+          <EntitySet Name="userInfo" EntityType="Self.userInfo" />
+          <AssociationSet Name="FK__event__community__54968AE5" Association="Self.FK__event__community__54968AE5">
+            <End Role="community" EntitySet="community" />
+            <End Role="event" EntitySet="event" />
+          </AssociationSet>
+          <AssociationSet Name="FK__notice__communit__58671BC9" Association="Self.FK__notice__communit__58671BC9">
+            <End Role="community" EntitySet="community" />
+            <End Role="notice" EntitySet="notice" />
+          </AssociationSet>
+          <AssociationSet Name="FK__eventSubs__event__090A5324" Association="Self.FK__eventSubs__event__090A5324">
+            <End Role="event" EntitySet="event" />
+            <End Role="eventSubscribers" EntitySet="eventSubscribers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__session__eventId__689D8392" Association="Self.FK__session__eventId__689D8392">
+            <End Role="event" EntitySet="event" />
+            <End Role="session" EntitySet="session" />
+          </AssociationSet>
+          <AssociationSet Name="FK__eventSubs__userI__09FE775D" Association="Self.FK__eventSubs__userI__09FE775D">
+            <End Role="userInfo" EntitySet="userInfo" />
+            <End Role="eventSubscribers" EntitySet="eventSubscribers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__inboxMess__recei__4DE98D56" Association="Self.FK__inboxMess__recei__4DE98D56">
+            <End Role="userInfo" EntitySet="userInfo" />
+            <End Role="inboxMessage" EntitySet="inboxMessage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__inboxMess__sende__4EDDB18F" Association="Self.FK__inboxMess__sende__4EDDB18F">
+            <End Role="userInfo" EntitySet="userInfo" />
+            <End Role="inboxMessage" EntitySet="inboxMessage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__question__author__6C6E1476" Association="Self.FK__question__author__6C6E1476">
+            <End Role="userInfo" EntitySet="userInfo" />
+            <End Role="question" EntitySet="question" />
+          </AssociationSet>
+          <AssociationSet Name="FK__question__sessio__6D6238AF" Association="Self.FK__question__sessio__6D6238AF">
+            <End Role="session" EntitySet="session" />
+            <End Role="question" EntitySet="question" />
+          </AssociationSet>
+          <AssociationSet Name="communityAdmins" Association="Self.communityAdmins">
+            <End Role="community" EntitySet="community" />
+            <End Role="userInfo" EntitySet="userInfo" />
+          </AssociationSet>
+          <AssociationSet Name="communityMembers" Association="Self.communityMembers">
+            <End Role="community" EntitySet="community" />
+            <End Role="userInfo" EntitySet="userInfo" />
+          </AssociationSet>
+          <AssociationSet Name="sponsorOnCommunity" Association="Self.sponsorOnCommunity">
+            <End Role="community" EntitySet="community" />
+            <End Role="sponsor" EntitySet="sponsor" />
+          </AssociationSet>
+          <AssociationSet Name="tagsOnCommunity" Association="Self.tagsOnCommunity">
+            <End Role="community" EntitySet="community" />
+            <End Role="tag" EntitySet="tag" />
+          </AssociationSet>
+          <AssociationSet Name="tagsOnEvent" Association="Self.tagsOnEvent">
+            <End Role="event" EntitySet="event" />
+            <End Role="tag" EntitySet="tag" />
+          </AssociationSet>
+          <FunctionImport Name="insert_community">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="local" Mode="In" Type="String" />
+            <Parameter Name="description" Mode="In" Type="String" />
+            <Parameter Name="foundationDate" Mode="In" Type="DateTime" />
+            <Parameter Name="avatar" Mode="In" Type="String" />
+            <Parameter Name="userCreator" Mode="In" Type="Int32" />
+            <Parameter Name="id" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="update_community">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="userId" Mode="In" Type="Int32" />
+            <Parameter Name="local" Mode="In" Type="String" />
+            <Parameter Name="description" Mode="In" Type="String" />
+            <Parameter Name="foundationDate" Mode="In" Type="DateTime" />
+            <Parameter Name="avatar" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="delete_community">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="userId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="insert_community_admin">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="userId" Mode="In" Type="Int32" />
+            <Parameter Name="adminId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="insert_community_member">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="userId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="comment" EntityType="EventCommitModel.comment" />
+          <AssociationSet Name="FK__comment__authorI__25869641" Association="EventCommitModel.FK__comment__authorI__25869641">
+            <End Role="userInfo" EntitySet="userInfo" />
+            <End Role="comment" EntitySet="comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__comment__communi__239E4DCF" Association="EventCommitModel.FK__comment__communi__239E4DCF">
+            <End Role="community" EntitySet="community" />
+            <End Role="comment" EntitySet="comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__comment__eventId__22AA2996" Association="EventCommitModel.FK__comment__eventId__22AA2996">
+            <End Role="event" EntitySet="event" />
+            <End Role="comment" EntitySet="comment" />
+          </AssociationSet>
+          <AssociationSet Name="questionLikes" Association="EventCommitModel.questionLikes">
+            <End Role="question" EntitySet="question" />
+            <End Role="userInfo" EntitySet="userInfo" />
+          </AssociationSet>
+          <FunctionImport Name="insert_question_Liker">
+            <Parameter Name="userId" Mode="In" Type="String" />
+            <Parameter Name="questionId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="CommunitySocialNetwork" EntityType="EventCommitModel.CommunitySocialNetwork" />
+          <AssociationSet Name="FK__Community__Commu__2A164134" Association="EventCommitModel.FK__Community__Commu__2A164134">
+            <End Role="community" EntitySet="community" />
+            <End Role="CommunitySocialNetwork" EntitySet="CommunitySocialNetwork" />
+          </AssociationSet>
+          <EntitySet Name="surveyQuestion" EntityType="EventCommitModel.surveyQuestion" />
+          <EntitySet Name="surveyAnswer" EntityType="EventCommitModel.surveyAnswer" />
+          <EntitySet Name="surveyChoice" EntityType="EventCommitModel.surveyChoice" />
+          <EntitySet Name="surveyChoiceAnswer" EntityType="EventCommitModel.surveyChoiceAnswer" />
+          <EntitySet Name="surveyTextAnswer" EntityType="EventCommitModel.surveyTextAnswer" />
+          <AssociationSet Name="FK__survey__eventId__04AFB25B" Association="EventCommitModel.FK__survey__eventId__04AFB25B">
+            <End Role="event" EntitySet="event" />
+            <End Role="survey" EntitySet="surveyQuestion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__surveyAnswer__0E391C95" Association="EventCommitModel.FK__surveyAnswer__0E391C95">
+            <End Role="survey" EntitySet="surveyQuestion" />
+            <End Role="surveyAnswer" EntitySet="surveyAnswer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__surveyChoice__09746778" Association="EventCommitModel.FK__surveyChoice__09746778">
+            <End Role="survey" EntitySet="surveyQuestion" />
+            <End Role="surveyChoice" EntitySet="surveyChoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK__surveyAns__autho__0F2D40CE" Association="EventCommitModel.FK__surveyAns__autho__0F2D40CE">
+            <End Role="userInfo" EntitySet="userInfo" />
+            <End Role="surveyAnswer" EntitySet="surveyAnswer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__surveyChoiceAnsw__18B6AB08" Association="EventCommitModel.FK__surveyChoiceAnsw__18B6AB08">
+            <End Role="surveyAnswer" EntitySet="surveyAnswer" />
+            <End Role="surveyChoiceAnswer" EntitySet="surveyChoiceAnswer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__surveyTextAnswer__13F1F5EB" Association="EventCommitModel.FK__surveyTextAnswer__13F1F5EB">
+            <End Role="surveyAnswer" EntitySet="surveyAnswer" />
+            <End Role="surveyTextAnswer" EntitySet="surveyTextAnswer" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="comment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="eventId" Type="Int32" />
+          <Property Name="communityId" Type="Int32" />
+          <Property Name="message" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="initialDate" Type="DateTime" Precision="0" />
+          <Property Name="authorId" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="userInfo" Relationship="EventCommitModel.FK__comment__authorI__25869641" FromRole="comment" ToRole="userInfo" />
+          <NavigationProperty Name="community" Relationship="EventCommitModel.FK__comment__communi__239E4DCF" FromRole="comment" ToRole="community" />
+          <NavigationProperty Name="event" Relationship="EventCommitModel.FK__comment__eventId__22AA2996" FromRole="comment" ToRole="event" />
+        </EntityType>
+        <Association Name="FK__comment__authorI__25869641">
+          <End Type="EventCommitModel.userInfo" Role="userInfo" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EventCommitModel.comment" Role="comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userInfo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="comment">
+              <PropertyRef Name="authorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__comment__communi__239E4DCF">
+          <End Type="EventCommitModel.community" Role="community" Multiplicity="0..1" />
+          <End Type="EventCommitModel.comment" Role="comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="community">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="comment">
+              <PropertyRef Name="communityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__comment__eventId__22AA2996">
+          <End Type="EventCommitModel.event" Role="event" Multiplicity="0..1" />
+          <End Type="EventCommitModel.comment" Role="comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="event">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="comment">
+              <PropertyRef Name="eventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="questionLikes">
+          <End Type="EventCommitModel.question" Role="question" Multiplicity="*" />
+          <End Type="EventCommitModel.userInfo" Role="userInfo" Multiplicity="*" />
+        </Association>
+        <EntityType Name="CommunitySocialNetwork">
+          <Key>
+            <PropertyRef Name="CommunityId" />
+            <PropertyRef Name="provider" />
+          </Key>
+          <Property Name="CommunityId" Type="Int32" Nullable="false" />
+          <Property Name="provider" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Url" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Acess_Token" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="community" Relationship="EventCommitModel.FK__Community__Commu__2A164134" FromRole="CommunitySocialNetwork" ToRole="community" />
+        </EntityType>
+        <Association Name="FK__Community__Commu__2A164134">
+          <End Type="EventCommitModel.community" Role="community" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EventCommitModel.CommunitySocialNetwork" Role="CommunitySocialNetwork" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="community">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="CommunitySocialNetwork">
+              <PropertyRef Name="CommunityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="surveyQuestion">
+          <Key>
+            <PropertyRef Name="eventId" />
+            <PropertyRef Name="questionId" />
+          </Key>
+          <Property Name="eventId" Type="Int32" Nullable="false" />
+          <Property Name="questionId" Type="Int32" Nullable="false" />
+          <Property Name="question" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="type" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="event" Relationship="EventCommitModel.FK__survey__eventId__04AFB25B" FromRole="survey" ToRole="event" />
+          <NavigationProperty Name="surveyAnswer" Relationship="EventCommitModel.FK__surveyAnswer__0E391C95" FromRole="survey" ToRole="surveyAnswer" />
+          <NavigationProperty Name="surveyChoice" Relationship="EventCommitModel.FK__surveyChoice__09746778" FromRole="survey" ToRole="surveyChoice" />
+        </EntityType>
+        <EntityType Name="surveyAnswer">
+          <Key>
+            <PropertyRef Name="eventId" />
+            <PropertyRef Name="questionId" />
+            <PropertyRef Name="authorId" />
+          </Key>
+          <Property Name="eventId" Type="Int32" Nullable="false" />
+          <Property Name="questionId" Type="Int32" Nullable="false" />
+          <Property Name="authorId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="survey" Relationship="EventCommitModel.FK__surveyAnswer__0E391C95" FromRole="surveyAnswer" ToRole="survey" />
+          <NavigationProperty Name="userInfo" Relationship="EventCommitModel.FK__surveyAns__autho__0F2D40CE" FromRole="surveyAnswer" ToRole="userInfo" />
+          <NavigationProperty Name="surveyChoiceAnswer" Relationship="EventCommitModel.FK__surveyChoiceAnsw__18B6AB08" FromRole="surveyAnswer" ToRole="surveyChoiceAnswer" />
+          <NavigationProperty Name="surveyTextAnswer" Relationship="EventCommitModel.FK__surveyTextAnswer__13F1F5EB" FromRole="surveyAnswer" ToRole="surveyTextAnswer" />
+        </EntityType>
+        <EntityType Name="surveyChoice">
+          <Key>
+            <PropertyRef Name="eventId" />
+            <PropertyRef Name="questionId" />
+            <PropertyRef Name="choiceId" />
+          </Key>
+          <Property Name="eventId" Type="Int32" Nullable="false" />
+          <Property Name="questionId" Type="Int32" Nullable="false" />
+          <Property Name="choiceId" Type="Int32" Nullable="false" />
+          <Property Name="message" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="survey" Relationship="EventCommitModel.FK__surveyChoice__09746778" FromRole="surveyChoice" ToRole="survey" />
+        </EntityType>
+        <EntityType Name="surveyChoiceAnswer">
+          <Key>
+            <PropertyRef Name="eventId" />
+            <PropertyRef Name="questionId" />
+            <PropertyRef Name="authorId" />
+            <PropertyRef Name="choiceId" />
+          </Key>
+          <Property Name="eventId" Type="Int32" Nullable="false" />
+          <Property Name="questionId" Type="Int32" Nullable="false" />
+          <Property Name="authorId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="choiceId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="surveyAnswer" Relationship="EventCommitModel.FK__surveyChoiceAnsw__18B6AB08" FromRole="surveyChoiceAnswer" ToRole="surveyAnswer" />
+        </EntityType>
+        <EntityType Name="surveyTextAnswer">
+          <Key>
+            <PropertyRef Name="eventId" />
+            <PropertyRef Name="questionId" />
+            <PropertyRef Name="authorId" />
+          </Key>
+          <Property Name="eventId" Type="Int32" Nullable="false" />
+          <Property Name="questionId" Type="Int32" Nullable="false" />
+          <Property Name="authorId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="response" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="surveyAnswer" Relationship="EventCommitModel.FK__surveyTextAnswer__13F1F5EB" FromRole="surveyTextAnswer" ToRole="surveyAnswer" />
+        </EntityType>
+        <Association Name="FK__survey__eventId__04AFB25B">
+          <End Type="EventCommitModel.event" Role="event" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EventCommitModel.surveyQuestion" Role="survey" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="event">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="survey">
+              <PropertyRef Name="eventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__surveyAnswer__0E391C95">
+          <End Type="EventCommitModel.surveyQuestion" Role="survey" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EventCommitModel.surveyAnswer" Role="surveyAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="survey">
+              <PropertyRef Name="eventId" />
+              <PropertyRef Name="questionId" />
+            </Principal>
+            <Dependent Role="surveyAnswer">
+              <PropertyRef Name="eventId" />
+              <PropertyRef Name="questionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__surveyChoice__09746778">
+          <End Type="EventCommitModel.surveyQuestion" Role="survey" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EventCommitModel.surveyChoice" Role="surveyChoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="survey">
+              <PropertyRef Name="eventId" />
+              <PropertyRef Name="questionId" />
+            </Principal>
+            <Dependent Role="surveyChoice">
+              <PropertyRef Name="eventId" />
+              <PropertyRef Name="questionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__surveyAns__autho__0F2D40CE">
+          <End Type="EventCommitModel.userInfo" Role="userInfo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EventCommitModel.surveyAnswer" Role="surveyAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userInfo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="surveyAnswer">
+              <PropertyRef Name="authorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__surveyChoiceAnsw__18B6AB08">
+          <End Type="EventCommitModel.surveyAnswer" Role="surveyAnswer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EventCommitModel.surveyChoiceAnswer" Role="surveyChoiceAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="surveyAnswer">
+              <PropertyRef Name="eventId" />
+              <PropertyRef Name="questionId" />
+              <PropertyRef Name="authorId" />
+            </Principal>
+            <Dependent Role="surveyChoiceAnswer">
+              <PropertyRef Name="eventId" />
+              <PropertyRef Name="questionId" />
+              <PropertyRef Name="authorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__surveyTextAnswer__13F1F5EB">
+          <End Type="EventCommitModel.surveyAnswer" Role="surveyAnswer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EventCommitModel.surveyTextAnswer" Role="surveyTextAnswer" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="surveyAnswer">
+              <PropertyRef Name="eventId" />
+              <PropertyRef Name="questionId" />
+              <PropertyRef Name="authorId" />
+            </Principal>
+            <Dependent Role="surveyTextAnswer">
+              <PropertyRef Name="eventId" />
+              <PropertyRef Name="questionId" />
+              <PropertyRef Name="authorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EventCommitModelStoreContainer" CdmEntityContainer="EventCommitEntities">
+          <EntitySetMapping Name="community">
+            <EntityTypeMapping TypeName="EventCommitModel.community">
+              <MappingFragment StoreEntitySet="community">
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
+                <ScalarProperty Name="site" ColumnName="site" />
+                <ScalarProperty Name="gitHub" ColumnName="gitHub" />
+                <ScalarProperty Name="mail" ColumnName="mail" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="local" ColumnName="local" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="foundationDate" ColumnName="foundationDate" />
+                <ScalarProperty Name="avatar" ColumnName="avatar" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="event">
+            <EntityTypeMapping TypeName="EventCommitModel.event">
+              <MappingFragment StoreEntitySet="event">
+                <ScalarProperty Name="creationDate" ColumnName="creationDate" />
+                <ScalarProperty Name="qrcode" ColumnName="qrcode" />
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="communityId" ColumnName="communityId" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="local" ColumnName="local" />
+                <ScalarProperty Name="nrOfTickets" ColumnName="nrOfTickets" />
+                <ScalarProperty Name="initDate" ColumnName="initDate" />
+                <ScalarProperty Name="endDate" ColumnName="endDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="eventSubscribers">
+            <EntityTypeMapping TypeName="EventCommitModel.eventSubscribers">
+              <MappingFragment StoreEntitySet="eventSubscribers">
+                <ScalarProperty Name="eventId" ColumnName="eventId" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="checkIn" ColumnName="checkIn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="inboxMessage">
+            <EntityTypeMapping TypeName="EventCommitModel.inboxMessage">
+              <MappingFragment StoreEntitySet="inboxMessage">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="message" ColumnName="message" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="receiver" ColumnName="receiver" />
+                <ScalarProperty Name="sender" ColumnName="sender" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="notice">
+            <EntityTypeMapping TypeName="EventCommitModel.notice">
+              <MappingFragment StoreEntitySet="notice">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="communityId" ColumnName="communityId" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="initialDate" ColumnName="initialDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="question">
+            <EntityTypeMapping TypeName="EventCommitModel.question">
+              <MappingFragment StoreEntitySet="question">
+                <ScalarProperty Name="likes" ColumnName="likes" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="message" ColumnName="message" />
+                <ScalarProperty Name="authorId" ColumnName="authorId" />
+                <ScalarProperty Name="sessionId" ColumnName="sessionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="session">
+            <EntityTypeMapping TypeName="EventCommitModel.session">
+              <MappingFragment StoreEntitySet="session">
+                <ScalarProperty Name="endDate" ColumnName="endDate" />
+                <ScalarProperty Name="linkOfSpeaker" ColumnName="linkOfSpeaker" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="speakerName" ColumnName="speakerName" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="eventId" ColumnName="eventId" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="initialDate" ColumnName="initialDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sponsor">
+            <EntityTypeMapping TypeName="EventCommitModel.sponsor">
+              <MappingFragment StoreEntitySet="sponsor">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="image" ColumnName="image" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tag">
+            <EntityTypeMapping TypeName="EventCommitModel.tag">
+              <MappingFragment StoreEntitySet="tag">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="userInfo">
+            <EntityTypeMapping TypeName="EventCommitModel.userInfo">
+              <MappingFragment StoreEntitySet="userInfo">
+                <ScalarProperty Name="googleplus" ColumnName="googleplus" />
+                <ScalarProperty Name="picture" ColumnName="picture" />
+                <ScalarProperty Name="biography" ColumnName="biography" />
+                <ScalarProperty Name="linkedin" ColumnName="linkedin" />
+                <ScalarProperty Name="twitter" ColumnName="twitter" />
+                <ScalarProperty Name="facebook" ColumnName="facebook" />
+                <ScalarProperty Name="github" ColumnName="github" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="local" ColumnName="local" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="registerDate" ColumnName="registerDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="communityAdmins" TypeName="EventCommitModel.communityAdmins" StoreEntitySet="communityAdmins">
+            <EndProperty Name="community">
+              <ScalarProperty Name="id" ColumnName="communityId" />
+            </EndProperty>
+            <EndProperty Name="userInfo">
+              <ScalarProperty Name="id" ColumnName="userId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="communityMembers" TypeName="EventCommitModel.communityMembers" StoreEntitySet="communityMembers">
+            <EndProperty Name="community">
+              <ScalarProperty Name="id" ColumnName="communityId" />
+            </EndProperty>
+            <EndProperty Name="userInfo">
+              <ScalarProperty Name="id" ColumnName="userId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="sponsorOnCommunity" TypeName="EventCommitModel.sponsorOnCommunity" StoreEntitySet="sponsorOnCommunity">
+            <EndProperty Name="community">
+              <ScalarProperty Name="id" ColumnName="communityId" />
+            </EndProperty>
+            <EndProperty Name="sponsor">
+              <ScalarProperty Name="id" ColumnName="sponsorId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="tagsOnCommunity" TypeName="EventCommitModel.tagsOnCommunity" StoreEntitySet="tagsOnCommunity">
+            <EndProperty Name="community">
+              <ScalarProperty Name="id" ColumnName="communityId" />
+            </EndProperty>
+            <EndProperty Name="tag">
+              <ScalarProperty Name="id" ColumnName="tagId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="tagsOnEvent" TypeName="EventCommitModel.tagsOnEvent" StoreEntitySet="tagsOnEvent">
+            <EndProperty Name="event">
+              <ScalarProperty Name="id" ColumnName="eventId" />
+            </EndProperty>
+            <EndProperty Name="tag">
+              <ScalarProperty Name="id" ColumnName="tagId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="comment">
+            <EntityTypeMapping TypeName="EventCommitModel.comment">
+              <MappingFragment StoreEntitySet="comment">
+                <ScalarProperty Name="authorId" ColumnName="authorId" />
+                <ScalarProperty Name="initialDate" ColumnName="initialDate" />
+                <ScalarProperty Name="message" ColumnName="message" />
+                <ScalarProperty Name="communityId" ColumnName="communityId" />
+                <ScalarProperty Name="eventId" ColumnName="eventId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="questionLikes" TypeName="EventCommitModel.questionLikes" StoreEntitySet="questionLikes">
+            <EndProperty Name="userInfo">
+              <ScalarProperty Name="id" ColumnName="userId" />
+            </EndProperty>
+            <EndProperty Name="question">
+              <ScalarProperty Name="id" ColumnName="questionId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="insert_question_Liker" FunctionName="EventCommitModel.Store.insert_question_Liker" />
+          <EntitySetMapping Name="CommunitySocialNetwork">
+            <EntityTypeMapping TypeName="EventCommitModel.CommunitySocialNetwork">
+              <MappingFragment StoreEntitySet="CommunitySocialNetwork">
+                <ScalarProperty Name="Acess_Token" ColumnName="Acess_Token" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="provider" ColumnName="provider" />
+                <ScalarProperty Name="CommunityId" ColumnName="CommunityId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="surveyQuestion">
+            <EntityTypeMapping TypeName="EventCommitModel.surveyQuestion">
+              <MappingFragment StoreEntitySet="survey">
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="question" ColumnName="question" />
+                <ScalarProperty Name="questionId" ColumnName="questionId" />
+                <ScalarProperty Name="eventId" ColumnName="eventId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="surveyAnswer">
+            <EntityTypeMapping TypeName="EventCommitModel.surveyAnswer">
+              <MappingFragment StoreEntitySet="surveyAnswer">
+                <ScalarProperty Name="authorId" ColumnName="authorId" />
+                <ScalarProperty Name="questionId" ColumnName="questionId" />
+                <ScalarProperty Name="eventId" ColumnName="eventId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="surveyChoice">
+            <EntityTypeMapping TypeName="EventCommitModel.surveyChoice">
+              <MappingFragment StoreEntitySet="surveyChoice">
+                <ScalarProperty Name="message" ColumnName="message" />
+                <ScalarProperty Name="choiceId" ColumnName="choiceId" />
+                <ScalarProperty Name="questionId" ColumnName="questionId" />
+                <ScalarProperty Name="eventId" ColumnName="eventId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="surveyChoiceAnswer">
+            <EntityTypeMapping TypeName="EventCommitModel.surveyChoiceAnswer">
+              <MappingFragment StoreEntitySet="surveyChoiceAnswer">
+                <ScalarProperty Name="choiceId" ColumnName="choiceId" />
+                <ScalarProperty Name="authorId" ColumnName="authorId" />
+                <ScalarProperty Name="questionId" ColumnName="questionId" />
+                <ScalarProperty Name="eventId" ColumnName="eventId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="surveyTextAnswer">
+            <EntityTypeMapping TypeName="EventCommitModel.surveyTextAnswer">
+              <MappingFragment StoreEntitySet="surveyTextAnswer">
+                <ScalarProperty Name="response" ColumnName="response" />
+                <ScalarProperty Name="authorId" ColumnName="authorId" />
+                <ScalarProperty Name="questionId" ColumnName="questionId" />
+                <ScalarProperty Name="eventId" ColumnName="eventId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

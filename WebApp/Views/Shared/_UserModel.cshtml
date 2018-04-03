@@ -1,0 +1,80 @@
+﻿
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static"  aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="ModelHeader" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Profile</h4>
+            </div>
+            <div class="modal-body">
+                
+                <div id="WaitingUser">
+                    <br /><br /><br /><br /><br />
+                    <div class="dots-loader"></div>
+                    <center>
+                        <h4>Getting Information about user</h4>
+                    </center>
+                </div>
+                
+                
+                <div id="userInfo" class="hidden">
+                    <center>
+                        <img id="userPhoto" name="aboutme" width="140" height="140" border="0" class="img-circle"/>
+                        
+                        <h3 id="profileName" class="media-heading"> <small id="local"></small></h3>
+                        <div class="row">
+                            <label><strong>Local:</strong></label>
+                            <label id="local"></label>
+                        </div>
+
+                        <div class="row">
+                            <label><strong>Register date:</strong></label>
+                            <label id="regDate"></label>
+                        </div>
+
+                        
+                        <!--Gerar os skils dinamicamente quando existir-->
+                       <!--
+                           <span><strong>Skills: </strong></span>
+                        <span class="label label-warning">HTML5/CSS</span>
+                        <span class="label label-info">Adobe CS 5.5</span>
+                        <span class="label label-info">Microsoft Office</span>
+                        <span class="label label-success">Windows XP, Vista, 7</span>
+                       -->
+                         
+                        <!--Gerar dinamicamente de acordo com as redes sociais que existem-->
+                        <hr>
+                        <div id="user-social" class="row">
+                            
+                        </div>
+
+                    </center>
+                    <hr>
+                    <center>
+                        <p class="text-left">
+                            <strong>Biography: </strong>
+                            
+                        </p>
+                        <p class="text-left" id="userBiography">
+                            This user doesnt have any biography.
+                        </p>
+                        <br>
+                    </center>
+                </div>
+                </div>
+                
+            <div class="modal-footer">
+                <center>
+                    <button onclick="closeUserModel()" type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </center>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+    
+        

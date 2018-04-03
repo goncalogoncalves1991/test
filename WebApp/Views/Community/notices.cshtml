@@ -1,0 +1,33 @@
+﻿
+@if (ViewBag.hasNotices)
+{
+    foreach (var notice in @Model)
+    {
+        <div class="col-sm-12 ">
+            <div class="row ">
+                <div class="col-xs-12">
+                    <h2>@notice.title</h2>
+
+                    <p>
+                        @notice.description
+                    </p>
+                    <span class="badge">Posted @notice.initialDate</span>
+                    <button  onclick="ShareOnFacebook('@notice.title','@notice.description','News')" class="btn btn-facebook btn-xs pull-right"><i class="fa fa-facebook-square "></i> Share</button>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <h1 class="text-center"> This community dont has notices yet</h1>
+}
+
+
+
+
+
+
+
+
+

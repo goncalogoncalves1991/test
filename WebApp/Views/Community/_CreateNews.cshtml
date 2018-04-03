@@ -1,0 +1,68 @@
+﻿@model WebApp.Models.News
+
+<div id="CreateNewsForm">
+    @using (Ajax.BeginForm("CreateNews",
+        new AjaxOptions
+        {
+            UpdateTargetId = "CreateNewsForm",
+            OnSuccess = "onSuccess"
+        }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <center>
+                <h2>News</h2>
+            </center>
+            
+            <hr />
+            @Html.ValidationSummary(true)
+
+
+            <input type="hidden" name="CommunityId" id="CommunityId" value="@Model.CommunityId" />
+            <input type="hidden" name="CommunityName" id="CommunityName" value="@Model.CommunityName" />
+         
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = "4", cols = "100" })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input id="SubmitButton" type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </div>
+
+
+
+        </div>
+    }
+</div>
+
+
+
+<script type="text/javascript">
+
+        var onSuccess = function (result) {
+            if (result.url) {
+                window.location.href = result.url;
+            }
+        }
+
+</script>
+

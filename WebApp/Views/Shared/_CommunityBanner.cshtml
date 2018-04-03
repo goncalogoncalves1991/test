@@ -1,0 +1,32 @@
+﻿@model DataAccess.Models.DTOs.community
+<br><br><br>
+<header>
+    <div class="container" style="background-color:#bdccdb">
+        <div class="row">
+            <div class="col-lg-3 col-md-3">
+                <img class="img-responsive img-circle hidden-xs" src="@Model.avatar" alt="">
+
+            </div>
+            <div class="col-lg-9 col-md-9">
+                <h2 class="name">@Model.name</h2>
+                <p class="description">@Model.description</p>
+                <div class="row">
+
+                    <a id="popHover" class="btn btn-facebook">
+                        About Us
+                        <i class="fa fa-info-circle"></i>
+                    </a>
+                    <a  class="btn btn-danger " onclick="joinMember()">
+                        Join Us
+                        <i class="glyphicon glyphicon-user"></i>
+                    </a>
+                    
+                
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</header>
+
+

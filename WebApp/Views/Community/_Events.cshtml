@@ -1,0 +1,90 @@
+﻿@if (ViewBag.hasEvents)
+{
+    <ul class="timeline">
+        @{
+
+            int counter = 1;
+            foreach (var eve in @Model._events)
+            {
+                @ShowEvent(eve, counter)
+
+                counter += 1;
+            }
+
+        }
+
+    </ul>
+}
+else
+{
+    <h1 class="text-center"> This community dont has events yet</h1>
+}
+
+@helper GetBadge(DateTime initialDate)
+{
+    if (initialDate.CompareTo(DateTime.Now.Date) >= 0)
+    {
+        <div class="timeline-badge success"><i class="fa fa-fire"></i></div>
+
+    }
+    else
+    {
+        <div class="timeline-badge danger"><i class="fa fa-times"></i></div>
+
+    }
+
+}
+
+@helper ShowEvent(DataAccess.Models.DTOs.@event eve, int counter)
+{
+
+    if (counter % 2 != 0)
+    {
+            <li>
+                @EventDetail(@eve)
+            </li>
+
+    }
+    else
+    {
+            <li class="timeline-inverted">
+                @EventDetail(@eve)
+            </li>
+
+    }
+
+}
+
+@helper EventDetail(DataAccess.Models.DTOs.@event eve)
+{
+
+    @GetBadge(@eve.initDate)
+    <div class="timeline-panel">
+        <div class="timeline-heading">
+            <h4 class="timeline-title">@eve.title</h4>
+            <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> @eve.initDate.ToString("dd/MM/yyyy") TO @eve.endDate.ToString("dd/MM/yyyy") </small></p>
+        </div>
+        <div class="timeline-body">
+            <p>@eve.description</p>
+        </div>
+        <div>
+            <button onclick="ShareOnFacebook('@eve.title','@eve.description','Events','@eve.id')" class="btn btn-facebook btn-xs"><i class="fa fa-facebook-square "></i> Share</button>
+            <a class="twitter-share-button"
+               href="https://twitter.com/intent/tweet"
+               url="https://exampleapp.com/community/tugait" 
+               via="EventCommit">
+                Tweet
+            </a>
+            @Html.ActionLink("See More", "Get", new { controller = "Event", communityId = @Model.communityName, eventId = @eve.id }, new { @class = "btn btn-facebook pull-right" })
+        </div>
+        <br />
+        
+        
+        
+   
+
+        
+        
+    </div>
+}
+

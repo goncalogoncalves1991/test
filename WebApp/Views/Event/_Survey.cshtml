@@ -1,0 +1,84 @@
+﻿
+<div class="container">
+    <div class="col-md-5 col-md-offset-3" style="background-color:white;padding:20px; border-radius:10px;border:1px solid #000000;">
+        <center>
+            <h1>Survey about Event</h1>
+        </center>
+        <hr />
+        <div class="form-horizontal">
+            <!-- question 1 using checkboxes -->
+            @if (Model.survey.Count == 0)
+            {
+                <div class="row alert alert-info alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    This event dont have any survey available 
+                </div>
+            }
+            else
+            {
+                foreach (var question in Model.survey)
+                {
+                    @CreateQuestion(question)
+                }
+                <br>
+                <br>
+                <center>
+                    <div id="sendSurveyWarning"></div>
+                    <div id="sendSurveySuccess"></div>
+                    <button onclick="CheckAnswersOfSurvey('@Model.token',@Model.eventId,@Model.survey.Count)" class="btn btn-success">Submit</button>
+                </center>
+            }
+            
+        </div>
+    </div>
+</div>
+
+
+@helper CreateQuestion(DataAccess.Models.DTOs.surveyQuestion q)
+{ 
+
+if (q.type == "single_choice")
+{
+    <div>
+        <input id="type_@q.questionId" value="single_choice" hidden/>
+        <h4 id="question_@q.questionId">@q.questionId. @q.question</h4>
+        @foreach (var choice in @q.surveyChoice)
+        {
+        
+        <div class="radio" >
+            <label><input type="radio"  value="@choice.choiceId" name="@q.questionId">@choice.message</label>
+        </div>
+
+        }
+    </div>
+    
+    <br />
+}
+
+else if (q.type == "open_text")
+{
+    <div>
+        <input id="type_@q.questionId" value="open_text" hidden />
+        <h4 id="question_@q.questionId">@q.questionId. @q.question </h4>
+        <textarea class="form-control" rows="3" id="@q.questionId"></textarea>
+    </div>
+    <br />
+}
+else if (q.type == "multiple_choice")
+{
+    <div >
+        <input id="type_@q.questionId" value="multiple_choice" hidden />
+        <h4 id="question_@q.questionId">@q.questionId. @q.question</h4>
+        @foreach (var choice in @q.surveyChoice)
+        {
+        <div class="checkbox">
+            <label><input name="@q.questionId"type="checkbox" value="@choice.choiceId">@choice.message</label>
+        </div>
+        }
+    </div>
+    
+    <br />
+}
+
+}
+

@@ -1,0 +1,94 @@
+﻿@model WebApp.Models.Session
+
+<form action=@Url.Action("CreateSession", "Event") method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <center>
+            <h2>Session</h2>
+        </center>
+        <hr />
+        @Html.ValidationSummary(true)
+
+
+        <input type="hidden" name="EventId" id="EventId" value="@Model.EventId" />
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = "4", cols = "100" })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class='input-group timepicker col-sm-3 col-md-3' id='startDate'>
+
+
+                @Html.TextBoxFor(model => model.StartDate, new { @class = "form-control", type = "datetime" })
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class='input-group timepicker col-sm-3 col-md-3' id='endDate'>
+
+
+                @Html.TextBoxFor(model => model.EndDate, new { @class = "form-control", type = "datetime" })
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+        <h3>Speaker Info:</h3>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SpeakerName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SpeakerName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SpeakerName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LinkOfSpeaker, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LinkOfSpeaker, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LinkOfSpeaker, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="SubmitButton" type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+
+    </div>
+
+</form>
+

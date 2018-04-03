@@ -1,0 +1,153 @@
+﻿
+@section Styles {
+    <link href="@Href("~/Content/index.css")" rel="stylesheet" type="text/css" />
+}
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-4">
+            <img id="img_logo" alt="Logo" src="@Url.Content("~/Content/Images/Logo.png")" />
+        </div>
+        <div class="col-md-8">
+            <p>
+                EventCommIT é uma plataforma de ajuda ás comunidades informaticas do pais. Cria os teus eventos, segue as comunidades que mais gostas e regista-te nos eventos das mesmas...
+                Para além de um grande conjunto de funcionalidades que oferecemos.
+            </p>
+            
+            @Html.ActionLink("Register >>", "Register",
+                new { controller = "Account" },
+                new { @class = "btn btn-primary" })
+            
+        </div>
+    </div>
+</div>
+
+
+@*
+    Para avisar qual foi o erro ao fazer redirect para o index
+    @if (ViewBag.Error)
+    {
+        <h1>Error</h1>
+        <div class="row alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            @ViewBag.ErrorMessage
+
+        </div>
+    }
+*@
+
+
+
+
+<h1 align="center">How it works</h1>
+<section >
+        <div class="row">
+            <div class="board">
+                <div class="board-inner">
+                    <ul class="nav nav-tabs" id="myTab">
+                        <div class="liner"></div>
+                        <li class="active">
+                            <a href="#home" data-toggle="tab" >
+                                <span class="round-tabs one">
+                                    <i class="glyphicon glyphicon-home"></i>
+                                </span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#account" data-toggle="tab" >
+                                <span class="round-tabs two">
+                                    <i class="glyphicon glyphicon-user"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#communities" data-toggle="tab" >
+                                <span class="round-tabs three">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#events" data-toggle="tab" >
+                                <span class="round-tabs four">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#doner" data-toggle="tab" >
+                                <span class="round-tabs five">
+                                    <i class="glyphicon glyphicon-ok"></i>
+                                </span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="home">
+
+                        <h3 class="head text-center">Welcome to EventCommIT</h3>
+                        <p class="narrow text-center">
+                            EventCommIT é uma plataforma que tem como objectivo facilitar a criação de eventos.
+                            Sendo que a origem do nome surge do conjugar de 3 palavras, event, community,............. tem como objectivo um 
+                            aproximar das comunidades tecnicas portuguesas de forma a facilitar aos interessados um ponto central onde todas as 
+                            comunidades se encontram sendo mais facil a procura de eventos da nossa parte assim como dos temas que nos interessa
+                        </p>
+
+                    </div>
+                    <div class="tab-pane fade" id="account">
+                        <h3 class="head text-center">Create your account</h3>
+                        <p class="narrow text-center">
+                            Para começar a usar todos os nossos serviços e poder estar atento a todas as comunidades de qual tenha interesse ou até 
+                            mesmo criar a sua propria comunidade basta se registar no nosso site ou fazer login através das diferentes redes sociais
+                            que disponibilizamos
+                        </p>
+
+                        <p class="text-center">
+                            <a href="@Url.Action("Register","Account")" class="btn btn-success btn-outline-rounded green">Register<span style="margin-left:10px;" class="glyphicon glyphicon-send"></span></a>
+                            <a href="@Url.Action("Login", "Account")" class="btn btn-success btn-outline-rounded green">Login<span style="margin-left:10px;" class="glyphicon glyphicon-send"></span></a>
+                        </p>
+
+                    </div>
+                    <div class="tab-pane fade" id="communities">
+                        <h3 class="head text-center">Communities</h3>
+                        <p class="narrow text-center">
+                            Estando registado podes criar as tuas próprias comunidades, assim como tornar - te membro das comunidades já existentes
+                            sendo informado de todas as suas novidades...
+                        </p>
+
+                        <p class="text-center">
+                            <a href="@Url.Action("About","Home")" class="btn btn-success btn-outline-rounded green"> Create a Community <span style="margin-left:10px;" class="glyphicon glyphicon-send"></span></a>
+                        </p>
+                    </div>
+                    <div class="tab-pane fade" id="events">
+                        <h3 class="head text-center">Events</h3>
+                        <p class="narrow text-center">
+                            Cria os teus proprios eventos dentro da tua comunidade partilhando automaticamente nas tuas redes sociais, convidar automaticamente os mesmobros da tua comunidade e usufruir de 
+                            mais um conjunto de funcionalidades para a gestão dos mesmo, como inscreve-te nos de outras comunidades sendo notificado ou guardando as suas datas no teu calendario do mail
+                        </p>
+
+                        <p class="text-center">
+                            <a href="" class="btn btn-success btn-outline-rounded green"> Create a Event<span style="margin-left:10px;" class="glyphicon glyphicon-send"></span></a>
+                        </p>
+                    </div>
+                    <div class="tab-pane fade" id="doner">
+                        <div class="text-center">
+                            <i class="img-intro icon-checkmark-circle"></i>
+                        </div>
+                        <h3 class="head text-center">Now you are ready!!!</h3>
+                        <p class="narrow text-center">
+                            Começa já a usar a nossa plataforma para não perderes pitada sobre os proximos eventos de comunidades tecnicas 
+                            em Portugal assim como novas comunidades que possam aparecer....
+                        </p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+</section>

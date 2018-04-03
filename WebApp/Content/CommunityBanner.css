@@ -1,0 +1,39 @@
+﻿body {
+  overflow-x: hidden;
+}
+p {
+  font-size: 18px;
+}
+
+header {
+  background: #ecf0f1;
+  color: black;
+}
+header .container {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+.name {
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 900;
+  font-size: 3em;
+  
+}
+.description {
+  font-size: 1.25em;
+  font-weight: 100;
+  padding-right:50px;
+}
+@media (min-width: 768px) {
+  header .container {
+    padding-top: 5px;
+    padding-bottom: 20px;
+  }
+  header .intro-text .name {
+    font-size: 3.75em;
+  }
+  header .intro-text .description {
+    font-size: 1.00em;
+    
+  }
+}

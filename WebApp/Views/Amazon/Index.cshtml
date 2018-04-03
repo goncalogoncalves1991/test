@@ -1,0 +1,10 @@
+﻿@Html.BeginForm("UploadToS3", "Amazon", FormMethod.Post, new {
+    enctype = "multipart/form-data"
+}){ 
+
+<label for="file"> Upload File:</label>
+<input type="file" name="file" id="file" />
+<input type="submit" name="submit" />
+}
+
+

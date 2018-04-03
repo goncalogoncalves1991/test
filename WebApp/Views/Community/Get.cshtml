@@ -1,0 +1,403 @@
+﻿@model DataAccess.Models.DTOs.community
+@using WebApp.Extensions
+@using Microsoft.AspNet.Identity;
+
+@{
+    ViewBag.Title = "EventCommit";
+}
+
+@section Styles {
+    <link href="@Href("~/Content/Community.css")" rel="stylesheet" type="text/css" />
+    <link href="@Href("~/Content/settings.css")" rel="stylesheet" type="text/css" />
+    <link href="@Href("~/Content/SideBar.css")" rel="stylesheet" type="text/css" />
+    <link href="@Href("~/Content/EventTimeLine.css")" rel="stylesheet" type="text/css" />
+    <link href="@Href("~/Content/bootstrap-datetimepicker.css")" rel="stylesheet" type="text/css" />
+    <link href="@Href("~/Content/comments.css")" rel="stylesheet" type="text/css" />
+    <link href="@Href("~/Content/inputFile.css")" rel="stylesheet" type="text/css" />
+    <link href="@Href("~/Content/loading.css")" rel="stylesheet" type="text/css" />
+}
+
+<div id='social-sidebar'>
+    <ul>
+        <li>
+            <a class='entypo-twitter' href='https://twitter.com/#' target='_blank'>
+                <span>Twitter</span>
+            </a>
+        </li>
+        <li>
+            <a class='entypo-gplus' href='https://plus.google.com/#' target='_blank'>
+                <span>google+</span>
+            </a>
+        </li>
+        <li>
+            <a class='entypo-tumblr' href='http://www.tumblr.net/#' target='_blank'>
+                <span>tumblr</span>
+            </a>
+        </li>
+        <li>
+            <a class='entypo-facebook' href='http://www.facebook.net/#' target='_blank'>
+                <span>facebook</span>
+            </a>
+        </li>
+        <li>
+            <a class='entypo-rss' href='http://feeds.feedburner.com/#' target='_blank'>
+                <span>feedburner</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<!-- Header-->
+@Html.Partial("_CommunityBanner", Model, @ViewData)
+
+<!------------------------------------>
+
+<div id="popover-content" style="display:none ">
+    @Html.Partial("_AboutUs", @Model)
+</div>
+
+
+<div class="row" id="infoMessage" style="margin-left:10px;" ></div>
+
+<br><br>
+
+<div class="row">
+    <div class="center">
+        <div class="row step">
+            <div id="notices " class="col-md-2 activestep " onclick="javascript: resetActive(event, 'step-1');">
+                <span class="fa fa-newspaper-o"></span>
+                <p>News</p>
+            </div>
+            <div class="col-md-2 " onclick="javascript: resetActive(event, 'step-2');">
+                <span class="fa fa-users"></span>
+                <p>Members</p>
+            </div>
+            <div class="col-md-2" onclick="javascript: resetActive(event, 'step-3');">
+                <span class="fa fa-calendar"></span>
+                <p>Events</p>
+            </div>
+            @if (ViewBag.Owner)
+            {
+                <div class="col-md-2" onclick="javascript: resetActive(event, 'step-4');">
+                    <span class="fa fa-cogs"></span>
+                    <p>Settings</p>
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row paddingTop activeStepInfo " id="step-1">
+
+    @Html.Partial("notices", @Model.notice)
+
+</div>
+
+<div class="row paddingTop hiddenStepInfo" id="step-2">
+
+    <h3>Admins</h3>
+    <div id="adminsList" class="row">
+        @listUsers(@Model.admins)
+    </div>
+    <h3>Members</h3>
+    <div id="membersList" class="row">
+        @listUsers(@Model.members)
+    </div>
+    
+</div>
+
+<div class="row paddingTop hiddenStepInfo" id="step-3">
+    @Html.Partial("_Events", new { _events = @Model.@event, communityName = @Model.name })
+
+
+</div>
+
+<div class="row paddingTop hiddenStepInfo" id="step-4">
+    <div class="row">
+        <div class="col-lg-12 col-md-5 col-sm-8 col-xs-9 ppit-tab-container">
+            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-3 ppit-tab-menu">
+                <div class="list-group">
+                    <a href="#" class="list-group-item active text-center">
+                        <h4 class="fa fa-pencil"></h4><br />Edit
+                    </a>
+                    <a href="#" class="list-group-item text-center">
+                        <h4 class="fa fa-calendar"></h4><br />Create Event
+                    </a>
+                    <a href="#" class="list-group-item text-center">
+                        <h4 class="fa fa-newspaper-o"></h4><br />Create News
+                    </a>
+                    <a href="#" class="list-group-item text-center">
+                        <h4 class="fa fa-users"></h4><br />Manage Members
+                    </a>
+                    <a href="#" class="list-group-item  text-center">
+                        <h4 class="fa fa-photo"></h4><br />Upload Photos
+                    </a>
+                    <a href="#" class="list-group-item text-center">
+                        <h4 class="fa  fa-trash"></h4><br/> Delete Community
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-10 col-md-9 col-sm-9 col-xs-9 ppit-tab">
+                <div class="ppit-tab-content active">
+                                     
+                    @Html.Partial("_UpdateCommunity",
+                     new WebApp.Models.Community
+                     {
+                         Id = Model.id,
+                         Description = Model.description,
+                         Local = Model.local,
+                         Name = Model.name,
+                         GitHub= Model.gitHub,
+                         Site = Model.site,
+                         Mail = Model.mail,
+                         date =Model.foundationDate.Value
+
+                     })   
+                </div>
+
+                <div class="ppit-tab-content">
+
+                    @Html.Partial("_CreateEvent", new WebApp.Models.Event { communityId = @Model.id, communityName = @Model.name })
+
+                </div>
+
+                <div class="ppit-tab-content">
+
+                    @Html.Partial("_CreateNews", new WebApp.Models.News { CommunityId = @Model.id, CommunityName = @Model.name })
+
+                </div>
+                <div class="ppit-tab-content">
+                    <center>
+                        <p>
+                            1
+                        </p>
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <label for="facebookURLPage">https://www.facebook.com/</label>
+                                <input type="text" class="form-control" id="facebookURLPage" placeholder="page name">
+                                <button type="button" id="facebookPageSubmit" class="btn btn-block btn-social btn-facebook" onclick="submitFacebook()">
+                                    <i class="fa fa-facebook">Submit</i>
+                                </button>
+                            </div>
+                        </form>
+                        @if (ViewBag.Twitter.HasToken)
+                        {
+                            <p>You are authenticated on Twitter</p><!--Para por o nome teria de fazer + 1 pedido no controller ao twitter com o AT correspondente-->
+                            if (ViewBag.Twitter.NotInDB)
+                            {
+                                <button type="button" id="twitterAssociateBtn" class="btn btn-block" onclick="associateTwitterToCommunity('@ViewBag.Twitter.Token')">
+                                    Associate to Community
+                                </button>
+                            }
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Register >>", "login",
+                                            new { controller = "Twitter" },
+                                            new { @class = "btn btn-primary btn-social btn-twitter" })
+                        }
+                    </center>
+
+                </div>
+
+                <div class="ppit-tab-content">
+
+                    <form action="UploadPhoto" method="post" enctype="multipart/form-data">
+                            <input type="file" name="files" id="file" multiple />
+                            <input type="submit" />
+                    </form>
+                </div>
+                <div class="ppit-tab-content">
+                    @Html.Partial("_DeleteCommunity", new WebApp.Models.DeleteCommunity { Id = Model.id})
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+@Html.Partial("_Comments", @Model.comment)
+
+@Html.Partial("_UserModel")
+
+
+
+@helper listUsers(ICollection<DataAccess.Models.DTOs.userInfo> users)
+{
+    foreach (var user in users)
+    {
+            <div  class="col-lg-2 col-md-3 col-sm-4 col-xs-12 user-item" data-toggle="modal" data-target="#myModal" onclick=getUser('@user.id') >
+                <img style="width:50px;height:65px ;margin:3px" src="@user.picture" class="img-rounded" alt="Circular Image">
+                @Html.DisplayFor(model => user.name) @Html.DisplayFor(model => user.lastName)
+            </div>
+
+    }
+}
+
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/MyScripts/GetCommunity.js")
+    @Scripts.Render("~/Scripts/MyScripts/SlidingTabs.js")
+    @Scripts.Render("~/Scripts/MyScripts/fb.js")
+    @Scripts.Render("~/Scripts/MyScripts/Twitter.js")
+    @Scripts.Render("~/Scripts/MyScripts/RequestFunctions.js")
+    @Scripts.Render("~/Scripts/MyScripts/User.js")
+    <script type="text/javascript" src="~/Scripts/moment.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("[id=popHover]").popover({
+                placement: 'bottom', //placement of the popover. also can use top, bottom, left or right
+                title: '<div style="text-align:center; text-decoration:underline; font-size:20px;"> More</div>', //this is the top title bar of the popover. add some basic css
+                html: 'true', //needed to show html of course
+                content: function () {
+                    return $('#popover-content').html();
+                }
+            });
+        });
+
+        $(function () {
+
+            var date = new Date();
+
+            $('#startDate').datetimepicker({
+                minDate: date,
+                format: 'DD/MM/YYYY ',
+            });
+
+            $('#endDate').datetimepicker({
+                useCurrent: false,
+                format: 'DD/MM/YYYY ',
+                defaultDate: date,
+                minDate: date
+
+            });
+
+            $("#startDate").on("dp.change", function (e) {
+                $('#endDate').data("DateTimePicker").minDate(e.date);
+            });
+            $("#endDate").on("dp.change", function (e) {
+                $('#startDate').data("DateTimePicker").maxDate(e.date);
+            });
+
+            $('#updateFoundationDate').datetimepicker({
+                format: 'DD/MM/YYYY ',
+            });
+
+        });
+
+        google.maps.event.addDomListener(window, 'load', function () {
+            var options = {
+                types: ['(cities)'],
+                componentRestrictions: { country: "pt" }
+            };
+            var places = new google.maps.places.Autocomplete(document.getElementById('txtPlacesUpdate'), options);
+
+        });
+
+        function submitFacebook() {
+            var url = $("#facebookURLPage").val();
+            FB.login(function (response) {
+                checkLoginState(url, function (err, res) {
+                    if (err) {
+                        alert(err);
+                    } else {
+                        $.ajax({
+                            url: 'https://exampleapp.com/api/communities/@Model.id/social',
+                            type: 'POST',
+                            headers: {
+                                "Authorization": "Bearer  @ViewBag.token",
+                            },
+                            data: JSON.stringify({ "Url": url, "Social": "Facebook", "Token": res.access_token }),
+                            contentType: 'application/json',
+                            success: function (data) {
+                                alert("Inserted");
+                                $('#facebookPageSubmit').attr("disabled", true);
+                            },
+                            error: function (error) {
+                                alert("Error" + JSON.stringify(error))
+                            }
+                        });
+                    }
+
+                });
+            }, { scope: 'publish_pages,public_profile' });
+        }
+
+        function associateTwitterToCommunity(token) {
+
+            $.ajax({
+                url: 'https://exampleapp.com/api/communities/@Model.id/social',
+                type: 'POST',
+                headers: {
+                    "Authorization": "Bearer  @ViewBag.token",
+                },
+                data: JSON.stringify({ "Url": "twitterUsername", "Social": "Twitter", "Token": token }),
+                contentType: 'application/json',
+                success: function (data) {
+                    alert("Inserted");
+                    $('#twitterAssociateBtn').remove();
+                },
+                error: function (error) {
+                    alert("Error" + JSON.stringify(error))
+                }
+            });
+        }
+        function ShareOnFacebook(title, description, sufix, id) {
+            var path;
+            if (id == undefined)
+                path = "";
+            else
+                path = "event/" + id;
+
+            FB.ui({
+                method: 'feed',
+                link: 'https://exampleapp.com/community/@Model.name' + path,
+                picture: '@Model.avatar',
+                name: title,
+                caption: '@Model.name'.toUpperCase() + "." + sufix,
+                description: description
+            });
+        }
+
+        function PostComment() {
+            var comment = $("#commentMessage").val()
+            Request("@ViewBag.token", 'POST', { "comment": comment }, COMMUNITY_URL+'/@Model.id/comments', (data, error) => {
+                if (data) {
+                    $("#infoMessage").append('</br><div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>Your comment was succefully add to this community. Thanks! </div>');
+                    $("#comments-list").prepend('<li><div class="comment-main-level"><div class="comment-avatar"><a href="#aboutModal" data-toggle="modal" data-target="#myModal" onclick=getUser("@User.Identity.GetUserId()")><img src="@User.Identity.GetPhoto()" alt=""></a></div><div class="comment-box"><div class="comment-head"><h6 class="comment-name">@User.Identity.GetFullName()</h6></div><div class="comment-content"><p><i class="glyphicon glyphicon-time"></i><small class="text-muted">Now</small></p>' + data.message + '</div></div></div></li>')
+                    $("#commentMessage").val("")
+                }
+                else {
+                    alert(JSON.stringify(error))
+                    $("#infoMessage").append('</br><div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>' + error.responseJSON.detail + ' </div>');
+                }
+                   
+            })
+        }
+
+        function joinMember() {
+            Request("@ViewBag.token", 'PUT', { "UserId": "@ViewBag.token", "Type": "member" }, COMMUNITY_URL+ '/@Model.id/user', (data, error) => {
+                if (data) {
+                    $("#infoMessage").append('</br><div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>You sucessufly join in this community. Thanks! </div>');
+                    $("#membersList").prepend('<div class="col-lg-2 col-md-3 col-sm-4 col-xs-12 user-item" onclick=getUser("@User.Identity.GetUserId()") data-toggle="modal" data-target="#myModal" ><img style="width:50px;height:65px ;margin:3px" src="@User.Identity.GetPhoto()" class="img-rounded" alt="Circular Image">@User.Identity.GetFullName()</div>')
+                   
+                }
+                else {
+                    alert(JSON.stringify(error))
+                    $("#infoMessage").append('</br><div class="row alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>' + error.responseJSON.detail + ' </div>');
+                }
+
+            })
+        }
+    </script>
+}

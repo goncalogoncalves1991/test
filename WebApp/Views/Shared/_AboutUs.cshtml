@@ -1,0 +1,22 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col-md-3 ">
+            <p><u>Local:</u> @Model.local</p>
+            <p><u>Foundation Date:</u> @Model.foundationDate.ToString("dd/MM/yyyy")</p>
+            <p><u>Tags:</u> @getTags(@Model.tag)</p>
+        </div>
+
+    </div>
+</div>
+
+
+@helper getTags(ICollection<DataAccess.Models.DTOs.tag> tags) {
+
+    foreach (var tag in tags)
+    {
+            <span class="label label-success"> @tag.name</span>
+    }
+
+}
+
+

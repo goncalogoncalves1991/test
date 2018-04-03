@@ -1,0 +1,127 @@
+﻿@model WebApp.Models.Community
+
+@{
+    ViewBag.Title = "CreateCommunity";
+}
+
+@section Styles {
+    <link href="@Href("~/Content/inputFile.css")" rel="stylesheet" type="text/css" />
+    
+}
+
+<h2>Create Community</h2>
+
+@{
+
+    if (@ViewBag.Error)
+    {
+        <div class="row alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            @ViewBag.Message
+
+        </div>
+    }
+
+}
+
+
+<form action="Create" method="post" enctype="multipart/form-data">
+
+    @Html.AntiForgeryToken()
+
+   
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Avatar, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <label class="file" title="">
+                    <input name ="Avatar" accept="image/png,image/jpeg" type="file" onchange="this.parentNode.setAttribute('title', this.value.replace(/^.*[\\/]/, ''))" />
+                </label>
+                @*@Html.TextBoxFor(m => m.Avatar, new { type = "file", name = "Files", @class="form-control", @readonly="readonly", accept = "image/png, image/jpeg" })*@
+                @Html.ValidationMessageFor(model => model.Avatar, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = "4", cols = "100" })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Local, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Local, new { htmlAttributes = new { @class = "form-control", id = "txtPlaces" } })
+                @Html.ValidationMessageFor(model => model.Local, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <input type="hidden" name="Latitude" id="Latitude" />
+        <input type="hidden" name="Longitude" id="Longitude" />
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.date, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-primary"/>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/MyScripts/fb.js")
+    
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+
+    <script type="text/javascript">
+
+        google.maps.event.addDomListener(window, 'load', function () {
+            var options = {
+                types: ['(cities)'],
+                componentRestrictions: { country: "pt" }
+            };
+            var places = new google.maps.places.Autocomplete(document.getElementById('txtPlaces'),options);
+
+            google.maps.event.addListener(places, 'place_changed', function () {
+
+
+                var latitude = places.getPlace().geometry.location.lat();
+                var longitude = places.getPlace().geometry.location.lng();
+                fillHidenFields(latitude, longitude)
+            });
+        });
+        function fillHidenFields(lat, lon) {
+            $("#Latitude").val(lat + "");
+            $("#Longitude").val(lon + "");
+        }
+
+
+    </script>
+}

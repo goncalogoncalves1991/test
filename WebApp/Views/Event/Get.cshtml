@@ -1,0 +1,429 @@
+﻿@model DataAccess.Models.DTOs.@event
+@using Microsoft.AspNet.Identity;
+@using WebApp.Extensions;
+
+@{
+    ViewBag.Title = "Get";
+}
+
+@section Styles {
+    <link href="@Href("~/Content/community.css")" rel="stylesheet" type="text/css" />
+    <link href="@Href("~/Content/SessionTimeLine.css")" rel="stylesheet" type="text/css" />
+    <link href="@Href("~/Content/settings.css")" rel="stylesheet" type="text/css" />
+    <link href="@Href("~/Content/bootstrap-datetimepicker.css")" rel="stylesheet" type="text/css" />
+    <link href="@Href("~/Content/comments.css")" rel="stylesheet" type="text/css" />
+    <link href="@Href("~/Content/loading.css")" rel="stylesheet" type="text/css" />
+    <link href="@Href("~/Content/subscribersList.css")" rel="stylesheet" type="text/css" />
+}
+
+<!--Header-->
+@Html.Partial("_CommunityBanner", @Model.community)
+<!----------------------------------------------------->
+
+<div id="popover-content" style="display:none ">
+    @Html.Partial("_AboutUs", @Model.community)
+</div>
+
+<div class="row" id="infoMessage" style="margin-left:10px;"></div>
+
+<br><br>
+
+<div class="row">
+    <div class="center">
+        <div class="row step">
+            <div class="col-md-2 activestep " onclick="javascript: resetActive(event, 'step-1');">
+                <span class="fa fa-info-circle"></span>
+                <p>About Event</p>
+            </div>
+
+
+            <div class="col-md-2 " onclick="javascript: resetActive(event, 'step-2');">
+                <span class="fa fa-graduation-cap"></span>
+                <p>Sessions</p>
+            </div>
+
+            <div class="col-md-2 " onclick="javascript: resetActive(event, 'step-3');">
+                <span class="fa fa-question"></span>
+                <p>Survey</p>
+            </div>
+
+            @if (ViewBag.Owner)
+            {
+                <div class="col-md-2" onclick="javascript: resetActive(event, 'step-4');">
+                    <span class="fa fa-cogs"></span>
+                    <p>Settings</p>
+                </div>
+
+            }
+
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="paddingTop activeStepInfo" id="step-1">
+
+        <div class="col col-md-5 ">
+            <h2><u>Title:</u></h2>
+            <p>@Model.title</p>
+            <h2><u>Description:</u> </h2>
+            <p>@Model.description</p>
+            <h2><u>Nrº of Ticketes:</u> </h2>
+            <p>@Model.nrOfTickets</p>
+            <h2><u>Starts at:</u></h2>
+            <p id="initialDate">@Model.initDate.ToString("dd/MM/yyyy")</p>
+            <h2><u>Ends at:</u></h2>
+            <p>@Model.endDate.ToString("dd/MM/yyyy")</p>
+           
+        </div>
+
+        <div class="col-md-4 ">
+            <div>
+                <div class="panel panel-default">
+                    <h2 class="text-center">Adress</h2>
+                    <div class="panel-body text-center">
+                        <div>
+                            @Model.local<br />
+
+                        </div>
+                        <hr />
+                        <div id="adressMap" class="map">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @Html.Partial("_SubscribersList",new { Subscribers = Model.eventSubscribers, InitialDate = Model.initDate })
+       
+    </div>
+
+    <div class="row paddingTop hiddenStepInfo" id="step-2">
+        <div class="col-lg-9 ">
+            @SessionTimeLine()
+        </div>
+    </div>
+
+    <div class="row paddingTop hiddenStepInfo" id="step-3">
+        <div class="col-lg-9 ">
+            @Html.Partial("_Survey",new {token= @ViewBag.token,survey= @Model.survey,eventId=Model.id } );
+        </div>
+    </div>
+
+
+    <div class="row paddingTop hiddenStepInfo" id="step-4">
+        <div class="row">
+            <div class="col-lg-12 col-md-5 col-sm-8 col-xs-9 ppit-tab-container">
+                <div class="col-lg-2 col-md-3 col-sm-3 col-xs-3 ppit-tab-menu">
+                    <div class="list-group">
+                        <a href="#" class="list-group-item active text-center">
+                            <h4 class="fa fa-pencil"></h4><br />Edit
+                        </a>
+                        <a href="#" class="list-group-item text-center">
+                            <h4 class="fa fa-calendar"></h4><br />Create Sessions
+                        </a>
+
+                        <a href="#" class="list-group-item text-center">
+                            <h4 class="fa fa-users"></h4><br />Manage Subscribers
+                        </a>
+                       <!--Fiz este if pois caso já exista um survey é necessário um onclick para ir buscar as respostas -->
+                         @if (Model.survey.Count == 0)
+                        {
+                            <a href="#"  class="list-group-item text-center">
+                                <h4 class="fa fa-question-circle"></h4><br />Create and analyse Survey
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="#" onclick="GetSurveyAnswers('@ViewBag.token',@Model.id)" class="list-group-item text-center">
+                                <h4 class="fa fa-question-circle"></h4><br />Create and analyse Survey
+                            </a>
+                        }
+
+                        <a href="#" class="list-group-item text-center">
+                            <h4 class="fa fa-trash"></h4><br />Delete Event
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-10 col-md-9 col-sm-9 col-xs-9 ppit-tab">
+                    <div class="ppit-tab-content active">
+                       @Html.Partial("_UpdateEvent",
+                             new WebApp.Models.Event
+                             {
+                                 Description = Model.description,
+                                 Local = Model.local,
+                                 Latitude= Model.latitude,
+                                 Longitude = Model.longitude,
+                                 Title = Model.title,                                 
+                                 Id = Model.id,
+                                 NrOfTickets = Model.nrOfTickets.Value
+
+                             })   
+                    </div>
+
+                    <div class="ppit-tab-content">
+                        <p>
+                            @Html.Partial("_CreateSession", new WebApp.Models.Session { EventId = @Model.id })
+                        </p>
+
+                    </div>
+
+
+                    <div class="ppit-tab-content">
+                        <center>
+                            <p>
+                                3
+                            </p>
+                        </center>
+                    </div>
+
+                    <div class="ppit-tab-content">
+                      
+                        <p>
+                            @if (Model.survey.Count ==0)
+                            {
+                                @Html.Partial("_CreateSurvey", new { token = @ViewBag.token, eventId = Model.id })
+                            }else
+                            {
+                                @Html.Partial("_AnalyticsSurvey", @Model.survey);
+                            }
+
+                        </p>
+                       
+                    </div>
+
+                    <div class="ppit-tab-content">
+
+                        <p>
+                            @Html.Partial("_DeleteEvent", new WebApp.Models.Delete.DeleteEvent {  Id = Model.id })
+                        </p>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+@helper SessionTimeLine()
+{
+
+    <div class="timeline-centered">
+        <article class="timeline-entry begin ">
+            <div class="timeline-entry-inner ">
+                <div class="timeline-icon bg-danger">
+                    Start
+                </div>
+            </div>
+        </article>
+
+        @for (int i = 0; i < @ViewBag.sessions.Length; ++i)
+        {
+
+            bool first = true;
+            foreach (var session in @ViewBag.sessions[i])
+            {
+
+                if (first)
+                {
+                    <div class="separator text-muted">
+                        <h4>@session.initialDate.ToString("dd/MM/yyyy")</h4>
+                    </div>
+                    first = false;
+                }
+
+                <article class="timeline-entry">
+                    <div class="timeline-entry-inner">
+                        <div class="timeline-icon ">
+                            @session.initialDate.ToString("H:mm")
+                        </div>
+                        <div class="timeline-label">
+                            <h2><a href="#session" onclick="GetSession(@session.id,'@ViewBag.token','@User.Identity.GetUserId()')" data-toggle="modal" data-target="#SessionModel">@session.title</a> <span>by: @session.speakerName @session.lastName</span></h2>
+                            <p>@session.description</p>
+                        </div>
+                    </div>
+                </article>
+            }
+
+
+        }
+
+        <article class="timeline-entry begin ">
+            <div class="timeline-entry-inner ">
+                <div class="timeline-icon bg-danger">
+                    End
+                </div>
+            </div>
+        </article>
+    </div>
+
+}
+
+
+
+
+@Html.Partial("_Comments", @Model.comment)
+
+
+@Html.Partial("_UserModel")
+
+<!--User.Identity.GetUserId()-->
+
+@Html.Partial("_SessionModel")
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/MyScripts/SlidingTabs.js")
+    @Scripts.Render("~/Scripts/MyScripts/GetEvent.js")
+    @Scripts.Render("~/Scripts/MyScripts/Survey.js")
+    @Scripts.Render("~/Scripts/MyScripts/RequestFunctions.js")
+    @Scripts.Render("~/Scripts/MyScripts/SessionModel.js")
+    @Scripts.Render("~/Scripts/MyScripts/User.js")
+
+    <script src="https://maps.googleapis.com/maps/api/js?callback=init_map" async defer></script>
+    <script type="text/javascript" src="~/Scripts/moment.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+
+
+    <script type="text/javascript">
+
+        $(function () {
+            var now = new Date()
+            var initDate = @Model.initDate.Month + "/" + @Model.initDate.Day + "/" + @Model.initDate.Year
+            var endDate = @Model.endDate.Month + "/" + @Model.endDate.Day + "/" + @Model.endDate.Year
+
+
+            $('#startDate').datetimepicker({
+                minDate: initDate,
+                format:'DD/MM/YYYY HH:mm',
+                maxDate: endDate
+            });
+
+
+            $('#endDate').datetimepicker({
+                useCurrent: false,
+                format:' DD/MM/YYYY HH:mm',
+                minDate: initDate,
+                maxDate: endDate
+
+            });
+            $("#startDate").on("dp.change", function (e) {
+                $('#endDate').data("DateTimePicker").minDate(e.date);
+
+
+            });
+            $("#endDate").on("dp.change", function (e) {
+                $('#startDate').data("DateTimePicker").maxDate(e.date);
+            });
+
+            //-------------------------Para o Update------------------------------//
+            $('#EventStartDate').datetimepicker({
+                defaultDate: initDate,
+                minDate: initDate,
+                format: 'DD/MM/YYYY '
+            });
+
+            $('#EventEndDate').datetimepicker({
+                useCurrent: false,
+                format: 'DD/MM/YYYY ',
+                minDate: now,
+                defaultDate:endDate
+
+            });
+
+
+            $("#EventStartDate").on("dp.change", function (e) {
+                $('EventEndDate').data("DateTimePicker").minDate(e.date);
+            });
+            $("EventEndDate").on("dp.change", function (e) {
+                $('#EventStartDate').data("DateTimePicker").maxDate(e.date);
+            });
+        });
+
+
+        function init_map() {
+            var myLocation = new google.maps.LatLng(@Model.latitude, @Model.longitude);
+
+            var mapOptions = {
+                center: myLocation,
+                zoom: 16
+            };
+            var marker = new google.maps.Marker({
+                position: myLocation,
+                title: "Event Location"
+            });
+            var map = new google.maps.Map(document.getElementById("adressMap"),
+                mapOptions);
+            marker.setMap(map);
+        }
+
+        function joinMember() {
+            Request("@ViewBag.token", 'PUT', { "UserId": "@ViewBag.token", "Type": "member" }, 'https://exampleapp.com/api/communities/@Model.communityId/user',(data,error)=>{
+                if (data) {
+                    alert("inserted")
+                    $("#infoMessage").append('</br><div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>You sucessufly join in this community. Thanks! </div>');
+                }
+                else {
+                    alert(JSON.stringify(error))
+                    $("#infoMessage").append('</br><div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>' + error.responseJSON.detail + ' </div>');
+                }
+            })
+        }
+
+        function insertSubscriber(){
+            Request("@ViewBag.token",'PUT',{},'https://exampleapp.com/api/events/@Model.id/subscribe',(data,error)=>{
+                if(data){
+                    alert("Inserted")
+                    $("#infoMessage").append('</br><div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>You sucessufly subscribed for this event. Thanks! </div>');
+                    $("#subscribers").prepend('<li class="clearfix"><a data-toggle="modal" data-target="#myModal" onclick=getUser("@User.Identity.GetUserId()")><img class="round" src="@User.Identity.GetPhoto()"><div class="legend-info"><strong>@User.Identity.GetFullName()</strong></div></a></li>')
+                   
+
+                }else{
+                    alert(JSON.stringify(error))
+                    $("#infoMessage").append('</br><div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>' + error.responseJSON.detail + ' </div>');
+                }
+
+            })
+
+
+
+        }
+
+        function PostComment() {
+            var comment = $("#commentMessage").val()
+            Request("@ViewBag.token",'POST', { "comment": comment }, EVENT_URL +'/@Model.id/comments', (data,error) => {
+                if (data) {
+                    $("#infoMessage").append('</br><div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>Your comment was succefully add to this community. Thanks! </div>');
+                    $("#comments-list").prepend('<li><div class="comment-main-level"><div class="comment-avatar"><a href="#aboutModal" data-toggle="modal" data-target="#myModal" onclick=getUser("@User.Identity.GetUserId()")><img src="@User.Identity.GetPhoto()" alt=""></a></div><div class="comment-box"><div class="comment-head"><h6 class="comment-name">@User.Identity.GetFullName()</h6></div><div class="comment-content"><p><i class="glyphicon glyphicon-time"></i><small class="text-muted">Now</small></p>' + data.message + '</div></div></div></li>')
+                    $("#commentMessage").val("")
+                }
+                else
+                    alert(JSON.stringify(error))
+            })
+        }
+
+    </script>
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
